@@ -1,0 +1,20 @@
+<svg width="800" height="800" viewBox="0 0 800 800" xmlns="http://www.w3.org/2000/svg">
+  <!-- studio paper background -->
+  <rect width="800" height="800" fill="#F3EFE6"/>
+  <!-- four frames on a contact sheet, one keeper circled in pen red.
+       Mirrors the canonical favicon mark: three ink-outlined frames, one filled ink,
+       and an imperfect double-stroke grease-pencil loop on the keeper. -->
+  <g transform="translate(210,210)">
+    <!-- frame outlines: ink keylines -->
+    <rect x="0"   y="0"   width="150" height="150" rx="34" fill="none" stroke="#241F18" stroke-width="18"/>
+    <rect x="230" y="0"   width="150" height="150" rx="34" fill="none" stroke="#241F18" stroke-width="18"/>
+    <rect x="0"   y="230" width="150" height="150" rx="34" fill="none" stroke="#241F18" stroke-width="18"/>
+    <!-- keeper frame: filled ink -->
+    <rect x="230" y="230" width="150" height="150" rx="34" fill="#241F18"/>
+    <!-- grease-pencil keeper loop: imperfect double stroke in pen red -->
+    <g fill="none" stroke="#E8483A" stroke-width="17" stroke-linecap="round">
+      <path d="M300 218 C 402 236, 410 372, 306 396 C 202 420, 158 372, 168 300 C 176 240, 236 210, 300 214 C 348 217, 384 232, 398 258"/>
+      <path d="M312 226 C 396 244, 400 356, 312 380" opacity="0.55"/>
+    </g>
+  </g>
+</svg>

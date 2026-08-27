@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="apple-touch-icon" href="/icon-180.png" />
+    <!-- manifest.webmanifest link is injected by vite-plugin-pwa at build time -->
+    <meta name="theme-color" content="#F3EFE6" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="preload"
+      href="/fonts/newsreader-latin-wght-normal.woff2"
+      as="font"
+      type="font/woff2"
+      crossorigin
+    />
+    <link
+      rel="preload"
+      href="/fonts/newsreader-latin-wght-italic.woff2"
+      as="font"
+      type="font/woff2"
+      crossorigin
+    />
+    <title>Gridloom</title>
+    <meta
+      name="description"
+      content="One prompt, every model, every seed, developed side by side in your browser. Your API keys, your images, provider prices. No subscription, no middleman."
+    />
+    <meta property="og:title" content="Gridloom | Run the shoot. Circle the keeper." />
+    <meta
+      property="og:description"
+      content="One prompt, every model, every seed, developed side by side in your browser. Your API keys, your images, provider prices. No subscription, no middleman."
+    />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://gridloom.app" />
+    <meta property="og:image" content="https://gridloom.app/og.png" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:image" content="https://gridloom.app/og.png" />
+    <script>
+      // Apply persisted theme before first paint to avoid a light/dark flash.
+      try {
+        var t = JSON.parse(localStorage.getItem('gridloom-theme') || '{}')
+        if (t.state && t.state.theme === 'dark') document.documentElement.setAttribute('data-gl-theme', 'dark')
+      } catch (e) {}
+    </script>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>

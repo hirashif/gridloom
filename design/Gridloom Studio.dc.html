@@ -1,0 +1,1094 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet data-dc-atomics>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400..700;1,6..72,400..700&amp;family=Instrument+Sans:wght@400;500;600;700&amp;family=JetBrains+Mono:wght@400;500;600&amp;family=Caveat:wght@500;600;700&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:var(--paper);font-family:'Instrument Sans',system-ui,sans-serif;-webkit-font-smoothing:antialiased;transition:background .3s;
+--paper:#F3EFE6;--paper2:#F7F4ED;--card:#FFFDF6;--chip:#FFFFFF;--chip-on:#FFF3EC;--ink:#241F18;--muted:#5C5344;--faint:#8C8069;--ph:#B5A98E;--hair:50,42,32;--chrome:rgba(247,244,237,.92);--sheet-bg:radial-gradient(120% 160% at 50% -10%,#FFFEF8 0%,#F4EEDC 45%,#E7DEC4 100%);--sheet-shadow:inset 0 2px 18px rgba(255,255,255,.9),inset 0 -10px 30px rgba(120,100,60,.12),0 14px 34px -18px rgba(60,48,24,.35);--sheet-ink:#241F18;--sheet-muted:#8A7C5E;--sheet-faint:#A89C82;--sheet-line:rgba(50,42,32,.22);--sheet-dash:rgba(50,42,32,.35);--sheet-shimmer:linear-gradient(90deg,#F0EADA 25%,#E4DAC0 37%,#F0EADA 63%);--sheet-btn-bg:#241F18;--sheet-btn-ink:#F7F4ED}
+body[data-gl-theme="dark"]{--paper:#16120D;--paper2:#1B1610;--card:#211B13;--chip:#2A2318;--chip-on:#3A2A1E;--ink:#F0E6D2;--muted:#A89A80;--faint:#7A6F5C;--ph:#6E6250;--hair:240,230,210;--chrome:rgba(22,18,13,.92);--sheet-bg:#26211A;--sheet-shadow:0 22px 46px -18px rgba(0,0,0,.55);--sheet-ink:#F0EBDD;--sheet-muted:#C9BFA8;--sheet-faint:#6B6250;--sheet-line:rgba(255,255,255,.22);--sheet-dash:rgba(255,255,255,.3);--sheet-shimmer:linear-gradient(90deg,#332C22 25%,#413828 37%,#332C22 63%);--sheet-btn-bg:#F0EBDD;--sheet-btn-ink:#26211A}
+@keyframes glRise{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+@keyframes glPop{0%{opacity:0;transform:scale(.85)}70%{transform:scale(1.03)}100%{opacity:1;transform:scale(1)}}
+@keyframes glShimmer{0%{background-position:-160% 0}100%{background-position:260% 0}}
+@keyframes glDash{to{stroke-dashoffset:0}}
+@keyframes glTick{0%,100%{transform:translateY(0)}50%{transform:translateY(-1px)}}
+input::placeholder,textarea::placeholder{color:var(--ph)}
+</style>
+</helmet>
+
+<div style="min-height:100vh;color:var(--ink);display:flex;flex-direction:column">
+
+<!-- ============ APP CHROME ============ -->
+<div style="position:sticky;top:0;z-index:40;background:var(--chrome);backdrop-filter:blur(10px);border-bottom:1px solid rgba(var(--hair),.14)">
+  <div style="display:flex;align-items:center;gap:20px;padding:10px 20px">
+    <div style="display:flex;align-items:center;gap:9px;min-width:150px">
+      <svg width="24" height="24" viewBox="0 0 28 28" style="overflow:visible;color:var(--ink)">
+        <rect x="2" y="2" width="10.5" height="10.5" rx="2.5" fill="none" stroke="currentColor" stroke-width="2"></rect>
+        <rect x="15.5" y="2" width="10.5" height="10.5" rx="2.5" fill="none" stroke="currentColor" stroke-width="2"></rect>
+        <rect x="2" y="15.5" width="10.5" height="10.5" rx="2.5" fill="none" stroke="currentColor" stroke-width="2"></rect>
+        <rect x="15.5" y="15.5" width="10.5" height="10.5" rx="2.5" fill="currentColor"></rect>
+        <path d="M21.2 15.2 C 27.5 16.5, 28.5 24.5, 21.5 26.2 C 14.5 27.8, 12.5 21, 16 17.5 C 18 15.5, 20 14.8, 22.5 15.6" fill="none" stroke="#D23B2E" stroke-width="2.2" stroke-linecap="round"></path>
+      </svg>
+      <span style="font-family:'Newsreader',serif;font-weight:600;font-size:18px;letter-spacing:-.01em">Gridloom</span>
+      <span style="font-family:'JetBrains Mono',monospace;font-size:9px;color:var(--faint);border:1px solid rgba(var(--hair),.2);border-radius:4px;padding:1px 5px">BETA</span>
+    </div>
+    <div style="display:flex;gap:4px;flex:1;justify-content:center">
+      <span onClick="{{ goGenerate }}" style="font-size:13.5px;font-weight:600;padding:7px 15px;border-radius:999px;cursor:pointer;color:{{ tabGenerateColor }};background:{{ tabGenerateBg }}" style-hover="color:var(--ink)">Generate</span>
+      <span onClick="{{ goCompare }}" style="font-size:13.5px;font-weight:600;padding:7px 15px;border-radius:999px;cursor:pointer;color:{{ tabCompareColor }};background:{{ tabCompareBg }}" style-hover="color:var(--ink)">Compare</span>
+      <span onClick="{{ goLibrary }}" style="font-size:13.5px;font-weight:600;padding:7px 15px;border-radius:999px;cursor:pointer;color:{{ tabLibraryColor }};background:{{ tabLibraryBg }}" style-hover="color:var(--ink)">Library</span>
+      <span onClick="{{ goRecipes }}" style="font-size:13.5px;font-weight:600;padding:7px 15px;border-radius:999px;cursor:pointer;color:{{ tabRecipesColor }};background:{{ tabRecipesBg }}" style-hover="color:var(--ink)">Recipes</span>
+      <span onClick="{{ goSettings }}" style="font-size:13.5px;font-weight:600;padding:7px 15px;border-radius:999px;cursor:pointer;color:{{ tabSettingsColor }};background:{{ tabSettingsBg }}" style-hover="color:var(--ink)">Settings</span>
+    </div>
+    <div style="display:flex;align-items:center;gap:12px;min-width:150px;justify-content:flex-end">
+      <sc-if value="{{ isTrial }}" hint-placeholder-val="{{ true }}">
+        <span style="font-size:11.5px;font-weight:600;color:#B5763B;background:rgba(181,118,59,.1);border:1px solid rgba(181,118,59,.3);border-radius:999px;padding:4px 11px">{{ trialLabel }}</span>
+      </sc-if>
+      <sc-if value="{{ isLicensed }}" hint-placeholder-val="{{ false }}">
+        <span style="font-size:11.5px;font-weight:600;color:#4C7C4C;background:rgba(76,124,76,.1);border:1px solid rgba(76,124,76,.3);border-radius:999px;padding:4px 11px">Licensed ✓</span>
+      </sc-if>
+      <span onClick="{{ toggleGuide }}" title="field guide" style="cursor:pointer;font-family:'Newsreader',serif;font-style:italic;font-size:15px;color:var(--faint);line-height:1;width:22px;height:22px;display:flex;align-items:center;justify-content:center;border:1px solid rgba(var(--hair),.25);border-radius:50%" style-hover="color:var(--ink);border-color:var(--ink)">?</span>
+      <span onClick="{{ toggleTheme }}" title="toggle darkroom" style="cursor:pointer;font-size:15px;color:var(--faint);line-height:1;padding:2px 4px" style-hover="color:var(--ink)">{{ themeIcon }}</span>
+      <span title="session cost" style="font-family:'JetBrains Mono',monospace;font-size:12px;font-weight:600;color:#D23B2E;animation:glTick 2.4s ease-in-out infinite">session {{ sessionCostLabel }}</span>
+    </div>
+  </div>
+</div>
+
+<!-- toast -->
+<sc-if value="{{ hasToast }}" hint-placeholder-val="{{ false }}">
+  <div style="position:fixed;bottom:26px;left:50%;transform:translateX(-50%);z-index:100;background:#2A241C;color:#F2ECDE;font-size:13.5px;font-weight:500;border-radius:999px;padding:11px 22px;box-shadow:0 12px 30px -8px rgba(0,0,0,.4);animation:glRise .3s cubic-bezier(.2,.7,.3,1) both;display:flex;align-items:center;gap:9px"><span style="font-family:'Caveat',cursive;font-size:17px;color:#FBE38A">✓</span>{{ toast }}</div>
+</sc-if>
+
+<!-- field guide -->
+<sc-if value="{{ showGuide }}" hint-placeholder-val="{{ false }}">
+  <div style="position:fixed;inset:0;z-index:90;background:rgba(38,33,26,.55);backdrop-filter:blur(3px);display:flex;align-items:center;justify-content:center" onClick="{{ closeGuide }}">
+    <div onClick="{{ stopProp }}" style="background:var(--paper2);border-radius:18px;box-shadow:0 40px 80px -20px rgba(0,0,0,.5);width:560px;max-width:92vw;max-height:84vh;overflow-y:auto;padding:32px 36px;position:relative;animation:glPop .3s cubic-bezier(.2,.7,.3,1) both">
+      <span onClick="{{ closeGuide }}" style="position:absolute;top:14px;right:18px;font-size:18px;color:var(--faint);cursor:pointer" style-hover="color:var(--ink)">✕</span>
+      <div style="font-family:'JetBrains Mono',monospace;font-size:10.5px;letter-spacing:.12em;color:#D23B2E;font-weight:600">FIELD GUIDE</div>
+      <div style="font-family:'Newsreader',serif;font-size:26px;font-weight:500;margin:6px 0 18px">Two minutes, then you're dangerous.</div>
+      <div style="display:flex;flex-direction:column;gap:14px;font-size:13.5px;line-height:1.6;color:var(--muted)">
+        <div style="display:flex;gap:12px"><span style="font-family:'Caveat',cursive;font-size:20px;color:#D23B2E;flex:none;width:22px">1.</span><span><strong style="color:var(--ink)">Add a key</strong> (Settings → Key vault). fal.ai gets you five models on one key. Keys live in this browser only — we have no server to send them to.</span></div>
+        <div style="display:flex;gap:12px"><span style="font-family:'Caveat',cursive;font-size:20px;color:#D23B2E;flex:none;width:22px">2.</span><span><strong style="color:var(--ink)">Generate</strong> is for one careful image; <strong style="color:var(--ink)">Compare</strong> runs one prompt across every model and seed at once. The grid is where you find the winner — mark it with your pen.</span></div>
+        <div style="display:flex;gap:12px"><span style="font-family:'Caveat',cursive;font-size:20px;color:#D23B2E;flex:none;width:22px">3.</span><span><strong style="color:var(--ink)">Keep what works.</strong> Everything auto-saves to the Library with full settings. A setup worth repeating? Save it as a Recipe and re-run it in one click.</span></div>
+      </div>
+      <div style="border-top:1px dashed rgba(var(--hair),.25);margin:18px 0 0;padding:14px 0 0;display:grid;grid-template-columns:1fr 1fr;gap:10px 20px;font-size:12px;color:var(--muted)">
+        <div><strong style="color:var(--ink)">Costs.</strong> You pay providers directly: $0.003–$0.04/image. Every run shows its price before you press the button.</div>
+        <div><strong style="color:var(--ink)">Knobs vary by model.</strong> FLUX dev exposes steps + guidance; others manage them internally. Hidden ≠ missing.</div>
+        <div><strong style="color:var(--ink)">Seeds = repeatability.</strong> Same prompt + model + seed ≈ same image. Fix a seed to iterate on wording; sweep seeds to explore.</div>
+        <div><strong style="color:var(--ink)">Back up.</strong> Your library lives in this browser. Settings → Export everything gives you a portable zip.</div>
+      </div>
+      <div style="font-family:'JetBrains Mono',monospace;font-size:10.5px;color:var(--faint);margin:16px 0 0;text-align:center">⌘⏎ runs the current view · full docs coming with v1.0</div>
+    </div>
+  </div>
+</sc-if>
+
+<!-- ============ GENERATE ============ -->
+<sc-if value="{{ viewGenerate }}" hint-placeholder-val="{{ false }}">
+<div data-screen-label="Generate" style="max-width:1220px;width:100%;margin:0 auto;padding:26px 20px 60px;display:grid;grid-template-columns:350px 1fr;gap:22px;align-items:start;box-sizing:border-box">
+  <!-- form -->
+  <div style="background:var(--card);border:1px solid rgba(var(--hair),.14);border-radius:14px;padding:20px;display:flex;flex-direction:column;gap:16px">
+    <div style="display:flex;justify-content:space-between;align-items:baseline"><span style="font-family:'Newsreader',serif;font-size:20px;font-weight:600">Set up the shot</span><span style="font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--faint)">single image</span></div>
+    <sc-if value="{{ noKeys }}" hint-placeholder-val="{{ false }}">
+      <div style="background:#FFF6EC;border:1.5px dashed rgba(181,118,59,.5);border-radius:10px;padding:14px;display:flex;flex-direction:column;gap:8px">
+        <div style="font-size:13.5px;font-weight:600;color:#8A5A28">No keys in the vault yet</div>
+        <div style="font-size:12.5px;line-height:1.5;color:#8A5A28">Paste a fal.ai, Google Gemini, or OpenAI key to start shooting. fal.ai gets you the most models on one key. It never leaves this browser.</div>
+        <span onClick="{{ goSettings }}" style="align-self:flex-start;background:var(--ink);color:var(--paper2);font-size:12.5px;font-weight:600;border-radius:999px;padding:7px 14px;cursor:pointer" style-hover="background:#D23B2E">Add a key →</span>
+      </div>
+    </sc-if>
+    <div style="display:flex;flex-direction:column;gap:6px">
+      <label style="font-size:12px;font-weight:600;color:var(--muted)">Prompt</label>
+      <textarea value="{{ gPrompt }}" onChange="{{ setGPrompt }}" rows="3" style="resize:vertical;background:var(--paper2);border:1px solid rgba(var(--hair),.18);border-radius:9px;padding:10px 12px;font-family:'Instrument Sans',sans-serif;font-size:13.5px;color:var(--ink);outline:none;line-height:1.5" style-focus="border-color:#D23B2E" placeholder="what are we shooting?"></textarea>
+    </div>
+    <sc-if value="{{ capNegative }}" hint-placeholder-val="{{ false }}">
+      <div style="display:flex;flex-direction:column;gap:6px">
+        <label style="font-size:12px;font-weight:600;color:var(--muted)">Negative prompt</label>
+        <input value="{{ gNeg }}" onChange="{{ setGNeg }}" style="background:var(--paper2);border:1px solid rgba(var(--hair),.18);border-radius:9px;padding:9px 12px;font-family:'Instrument Sans',sans-serif;font-size:13px;color:var(--ink);outline:none" style-focus="border-color:#D23B2E" placeholder="text, watermark, extra fingers…"></input>
+      </div>
+    </sc-if>
+    <div style="display:flex;flex-direction:column;gap:6px;position:relative">
+      <label style="font-size:12px;font-weight:600;color:var(--muted)">Model</label>
+      <div onClick="{{ toggleGMenu }}" style="display:flex;align-items:center;justify-content:space-between;gap:10px;background:var(--paper2);border:1px solid rgba(var(--hair),.18);border-radius:9px;padding:9px 12px;cursor:pointer" style-hover="border-color:#D23B2E">
+        <span style="display:flex;align-items:baseline;gap:8px"><span style="font-size:13.5px;font-weight:600;color:var(--ink)">{{ gModelLabel }}</span><span style="font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--faint)">{{ gModelProvider }}</span></span>
+        <span style="display:flex;align-items:center;gap:8px"><span style="font-family:'JetBrains Mono',monospace;font-size:10.5px;color:#B5763B;font-weight:600">{{ gModelCostLabel }}</span><span style="color:var(--faint);font-size:11px">▾</span></span>
+      </div>
+      <sc-if value="{{ gMenuOpen }}" hint-placeholder-val="{{ false }}">
+        <div style="position:absolute;top:calc(100% + 6px);left:0;right:0;z-index:30;background:var(--card);border:1px solid rgba(var(--hair),.25);border-radius:12px;box-shadow:0 24px 48px -16px rgba(30,22,10,.35);max-height:330px;overflow-y:auto;padding:7px;animation:glRise .2s cubic-bezier(.2,.7,.3,1) both">
+          <sc-for list="{{ gModelGroups }}" as="grp" hint-placeholder-count="5">
+            <div style="display:flex;justify-content:space-between;align-items:baseline;padding:8px 10px 4px"><span style="font-family:'JetBrains Mono',monospace;font-size:9.5px;letter-spacing:.12em;color:var(--faint)">{{ grp.name }}</span><span style="font-family:'JetBrains Mono',monospace;font-size:9px;color:var(--faint)">{{ grp.keyNote }}</span></div>
+            <sc-for list="{{ grp.models }}" as="m" hint-placeholder-count="2">
+              <div onClick="{{ m.pick }}" style="display:flex;justify-content:space-between;align-items:center;padding:8px 10px;border-radius:7px;cursor:pointer;opacity:{{ m.opacity }};background:{{ m.bg }}" style-hover="background:var(--chip-on)">
+                <span style="display:flex;align-items:center;gap:7px"><span style="font-size:10px;color:#D23B2E;width:10px">{{ m.check }}</span><span style="font-size:13px;font-weight:600;color:var(--ink)">{{ m.label }}</span></span>
+                <span style="font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--faint)">{{ m.meta }}</span>
+              </div>
+            </sc-for>
+          </sc-for>
+          <div style="border-top:1px dashed rgba(var(--hair),.2);margin:6px 4px 2px;padding:8px 6px 4px;font-family:'JetBrains Mono',monospace;font-size:9.5px;color:var(--faint);display:flex;justify-content:space-between"><span>{{ registryCountLabel }}</span><span>list updates itself · free</span></div>
+        </div>
+      </sc-if>
+    </div>
+    <sc-if value="{{ billingWarn }}" hint-placeholder-val="{{ false }}">
+      <div style="background:#FDF0EE;border:1.5px solid rgba(210,59,46,.4);border-radius:9px;padding:11px 13px;font-size:12.5px;line-height:1.5;color:#9E2A1E"><strong>{{ billingProvider }} key problem.</strong> The provider rejected this key — billing or revoked. Fix it on the provider's dashboard, then re-test in Settings.</div>
+    </sc-if>
+    <div style="display:flex;flex-direction:column;gap:6px">
+      <label style="display:flex;justify-content:space-between;font-size:12px;font-weight:600;color:var(--muted)">Reference image <span style="font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--faint);font-weight:500">image-to-image</span></label>
+      <sc-if value="{{ noRef }}" hint-placeholder-val="{{ true }}">
+        <div onClick="{{ addRef }}" style="border:1.5px dashed rgba(var(--hair),.3);border-radius:9px;padding:13px;text-align:center;font-size:12.5px;color:var(--faint);cursor:pointer" style-hover="border-color:#D23B2E;color:var(--ink)">+ drop a product shot or style frame</div>
+      </sc-if>
+      <sc-if value="{{ hasRef }}" hint-placeholder-val="{{ false }}">
+        <div style="display:flex;align-items:center;gap:10px;background:var(--paper2);border:1px solid rgba(var(--hair),.16);border-radius:9px;padding:8px 10px">
+          <span style="width:34px;height:34px;border-radius:5px;background:linear-gradient(135deg,#D9A05B,#8C5A2E 60%,#3E2A18);flex:none"></span>
+          <span style="flex:1;font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--muted)">reference-01.png</span>
+          <span onClick="{{ removeRef }}" style="font-size:13px;color:var(--faint);cursor:pointer;padding:2px 5px" style-hover="color:#9E2A1E">✕</span>
+        </div>
+        <label style="display:flex;justify-content:space-between;font-size:12px;font-weight:600;color:var(--muted);margin:4px 0 0">Strength <span style="font-family:'JetBrains Mono',monospace;color:var(--ink)">{{ gStrength }}</span></label>
+        <input type="range" min="0.1" max="1" step="0.05" value="{{ gStrength }}" onChange="{{ setGStrength }}" style="accent-color:#D23B2E"></input>
+      </sc-if>
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+      <sc-if value="{{ capSteps }}" hint-placeholder-val="{{ true }}">
+        <div style="display:flex;flex-direction:column;gap:6px;min-width:0">
+          <label style="display:flex;justify-content:space-between;font-size:12px;font-weight:600;color:var(--muted)">Steps <span style="font-family:'JetBrains Mono',monospace;color:var(--ink)">{{ steps }}</span></label>
+          <input type="range" min="8" max="50" value="{{ steps }}" onChange="{{ setSteps }}" style="width:100%;min-width:0;margin:0;accent-color:#D23B2E"></input>
+        </div>
+      </sc-if>
+      <sc-if value="{{ capGuidance }}" hint-placeholder-val="{{ true }}">
+        <div style="display:flex;flex-direction:column;gap:6px;min-width:0">
+          <label style="display:flex;justify-content:space-between;font-size:12px;font-weight:600;color:var(--muted)">Guidance <span style="font-family:'JetBrains Mono',monospace;color:var(--ink)">{{ guidance }}</span></label>
+          <input type="range" min="1" max="12" step="0.5" value="{{ guidance }}" onChange="{{ setGuidance }}" style="width:100%;min-width:0;margin:0;accent-color:#D23B2E"></input>
+        </div>
+      </sc-if>
+      <sc-if value="{{ capSeed }}" hint-placeholder-val="{{ true }}">
+        <div style="display:flex;flex-direction:column;gap:6px;min-width:0">
+          <label style="font-size:12px;font-weight:600;color:var(--muted)">Seed</label>
+          <div style="display:flex;gap:6px">
+            <input value="{{ gSeed }}" onChange="{{ setGSeed }}" style="flex:1;min-width:0;background:var(--paper2);border:1px solid rgba(var(--hair),.18);border-radius:8px;padding:8px 11px;font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--ink);outline:none" style-focus="border-color:#D23B2E"></input>
+            <span onClick="{{ diceSeed }}" title="random seed" style="display:flex;align-items:center;justify-content:center;width:32px;border:1px solid rgba(var(--hair),.18);border-radius:8px;cursor:pointer;color:var(--faint);font-size:14px;background:var(--paper2);flex:none" style-hover="border-color:#D23B2E;color:#D23B2E">⚄</span>
+          </div>
+        </div>
+      </sc-if>
+      <div style="display:flex;flex-direction:column;gap:6px;min-width:0">
+        <label style="display:flex;justify-content:space-between;font-size:12px;font-weight:600;color:var(--muted)">Size <span style="font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--faint);font-weight:500">max {{ gMaxSize }}</span></label>
+        <select value="{{ gSize }}" onChange="{{ setGSize }}" style="background:var(--paper2);border:1px solid rgba(var(--hair),.18);border-radius:8px;padding:8px 9px;font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--ink);outline:none">
+          <option value="1024×1024">1024×1024</option>
+          <option value="1344×768">1344×768</option>
+          <option value="768×1344">768×1344</option>
+          <option value="1536×1024">1536×1024</option>
+          <option value="2048×2048">2048×2048</option>
+        </select>
+      </div>
+    </div>
+    <sc-if value="{{ hasAutoNote }}" hint-placeholder-val="{{ false }}">
+      <div style="font-family:'JetBrains Mono',monospace;font-size:10.5px;line-height:1.6;color:var(--faint);background:var(--paper2);border:1px dashed rgba(var(--hair),.25);border-radius:8px;padding:9px 11px">{{ autoNote }}</div>
+    </sc-if>
+    <span onClick="{{ runGenerate }}" style="background:#D23B2E;color:#FFF6F0;border-radius:999px;padding:12px;text-align:center;font-size:14.5px;font-weight:600;cursor:pointer;box-shadow:0 2px 0 rgba(36,31,24,.25)" style-hover="background:#B32A1F" style-active="transform:translateY(1px)">{{ generateLabel }}</span>
+    <div style="font-family:'JetBrains Mono',monospace;font-size:10.5px;color:var(--faint);text-align:center">1 image · ≈ {{ genCostLabel }}</div>
+  </div>
+
+  <!-- result -->
+  <div style="background:var(--card);border:1px solid rgba(var(--hair),.14);border-radius:14px;padding:22px;min-height:520px;display:flex;flex-direction:column">
+    <sc-if value="{{ genIdle }}" hint-placeholder-val="{{ true }}">
+      <div style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;border:1.5px dashed rgba(var(--hair),.22);border-radius:12px;margin:2px">
+        <svg width="52" height="52" viewBox="0 0 28 28" style="opacity:.35;color:var(--ink)">
+          <rect x="2" y="2" width="10.5" height="10.5" rx="2.5" fill="none" stroke="currentColor" stroke-width="1.6"></rect>
+          <rect x="15.5" y="2" width="10.5" height="10.5" rx="2.5" fill="none" stroke="currentColor" stroke-width="1.6"></rect>
+          <rect x="2" y="15.5" width="10.5" height="10.5" rx="2.5" fill="none" stroke="currentColor" stroke-width="1.6"></rect>
+          <rect x="15.5" y="15.5" width="10.5" height="10.5" rx="2.5" fill="none" stroke="currentColor" stroke-width="1.6"></rect>
+        </svg>
+        <div style="font-family:'Newsreader',serif;font-size:20px;color:var(--faint)">Your image appears here.</div>
+        <div style="font-size:13px;color:var(--ph);max-width:36ch;text-align:center;line-height:1.55">Describe what you need and press Develop. Every result is auto-saved to your Library with its full settings.</div>
+      </div>
+    </sc-if>
+    <sc-if value="{{ genRunning }}" hint-placeholder-val="{{ false }}">
+      <div style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px">
+        <div style="width:340px;aspect-ratio:1;border-radius:12px;background:linear-gradient(90deg,#F0EADA 25%,#E4DAC0 37%,#F0EADA 63%);background-size:200% 100%;animation:glShimmer 1.4s linear infinite"></div>
+        <div style="font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--faint)">developing… <span style="color:#B5763B">{{ gModel }}</span> · seed {{ gSeed }}</div>
+      </div>
+    </sc-if>
+    <sc-if value="{{ genDone }}" hint-placeholder-val="{{ false }}">
+      <div style="flex:1;display:grid;grid-template-columns:1fr 250px;gap:22px;align-items:start">
+        <div style="position:relative;justify-self:center;background:#FFF;padding:12px 12px 10px;border-radius:8px;box-shadow:0 16px 36px -14px rgba(60,48,24,.4);animation:glPop .45s both">
+          <div style="width:400px;max-width:100%;aspect-ratio:1;border-radius:4px;background:{{ genBg }}"></div>
+          <div style="display:flex;justify-content:space-between;font-family:'JetBrains Mono',monospace;font-size:10px;color:#8A7C5E;margin:8px 2px 0"><span>{{ gModel }} · seed {{ gSeed }}</span><span>{{ genCostLabel }} · 2.3s</span></div>
+          <sc-if value="{{ genStarred }}" hint-placeholder-val="{{ false }}">
+            <sc-if value="{{ markIsCircle }}" hint-placeholder-val="{{ true }}"><svg viewBox="0 0 100 100" style="position:absolute;inset:0 0 18px 0;overflow:visible;pointer-events:none"><path d="M50 8 C 82 4, 98 24, 94 52 C 90 82, 60 98, 32 92 C 8 86, 0 60, 8 36 C 16 14, 34 6, 62 8" fill="none" stroke="#E8483A" stroke-width="3.5" stroke-linecap="round" stroke-dasharray="330" stroke-dashoffset="330" style="animation:glDash .7s ease-out forwards"></path></svg></sc-if>
+            <sc-if value="{{ markIsDot }}" hint-placeholder-val="{{ false }}"><span style="position:absolute;top:-10px;right:-10px;width:28px;height:28px;border-radius:50%;background:radial-gradient(circle at 35% 30%,#FF7A5C,#D9301B 70%);box-shadow:0 2px 6px rgba(120,20,0,.4);animation:glPop .35s both"></span></sc-if>
+            <sc-if value="{{ markIsTape }}" hint-placeholder-val="{{ false }}"><span style="position:absolute;top:8px;left:-16px;background:#FBE38A;color:#5C4A12;font-family:'JetBrains Mono',monospace;font-size:10px;font-weight:600;letter-spacing:.08em;padding:4px 14px;transform:rotate(-9deg);box-shadow:0 2px 5px rgba(60,40,0,.3);opacity:.94;animation:glPop .35s both">KEEP</span></sc-if>
+            <sc-if value="{{ markIsStar }}" hint-placeholder-val="{{ false }}"><span style="position:absolute;bottom:26px;right:4px;font-family:'Caveat',cursive;font-size:44px;line-height:1;color:#E8483A;text-shadow:0 1px 3px rgba(0,0,0,.3);transform:rotate(-6deg);animation:glPop .35s both">★</span></sc-if>
+            <sc-if value="{{ markIsStamp }}" hint-placeholder-val="{{ false }}"><span style="position:absolute;top:60px;left:4px;border:3px solid rgba(232,72,58,.85);color:rgba(232,72,58,.9);font-family:'JetBrains Mono',monospace;font-size:14px;font-weight:600;letter-spacing:.14em;padding:6px 12px;border-radius:5px;transform:rotate(-11deg);animation:glPop .35s both">WINNER</span></sc-if>
+            <sc-if value="{{ markIsCheck }}" hint-placeholder-val="{{ false }}"><svg viewBox="0 0 100 100" style="position:absolute;inset:24px 24px 44px 24px;pointer-events:none"><path d="M22 55 L 42 76 L 84 24" fill="none" stroke="#FFF3E8" stroke-width="9" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="120" stroke-dashoffset="120" style="animation:glDash .5s ease-out forwards;filter:drop-shadow(0 1px 3px rgba(0,0,0,.4))"></path></svg></sc-if>
+          </sc-if>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:10px">
+          <div style="font-size:13px;font-weight:600;color:var(--muted)">This frame</div>
+          <span onClick="{{ toggleGenStar }}" style="display:flex;align-items:center;gap:9px;background:var(--paper2);border:1px solid rgba(var(--hair),.16);border-radius:9px;padding:10px 13px;font-size:13px;font-weight:600;cursor:pointer" style-hover="border-color:#D23B2E">{{ starLabel }}</span>
+          <span onClick="{{ saveGen }}" style="display:flex;align-items:center;gap:9px;background:var(--paper2);border:1px solid rgba(var(--hair),.16);border-radius:9px;padding:10px 13px;font-size:13px;font-weight:600;cursor:pointer" style-hover="border-color:#D23B2E">↓ &nbsp;Export PNG</span>
+          <div style="display:flex;flex-direction:column;gap:6px;background:var(--paper2);border:1px solid rgba(var(--hair),.16);border-radius:9px;padding:10px 13px">
+            <span style="font-size:12px;font-weight:600;color:var(--muted)">Tags</span>
+            <div style="display:flex;flex-wrap:wrap;gap:5px">
+              <span style="font-family:'JetBrains Mono',monospace;font-size:10px;background:var(--chip);border:1px solid rgba(var(--hair),.18);border-radius:5px;padding:3px 8px">product</span>
+              <span style="font-family:'JetBrains Mono',monospace;font-size:10px;background:var(--chip);border:1px solid rgba(var(--hair),.18);border-radius:5px;padding:3px 8px">teapot</span>
+              <span style="font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--faint);border:1px dashed rgba(var(--hair),.3);border-radius:5px;padding:3px 8px;cursor:pointer" style-hover="color:var(--ink)">+ tag</span>
+            </div>
+          </div>
+          <div style="font-family:'JetBrains Mono',monospace;font-size:10.5px;color:var(--faint);line-height:1.8;background:var(--paper2);border:1px solid rgba(var(--hair),.16);border-radius:9px;padding:10px 13px">steps {{ steps }} · guidance {{ guidance }}<br>size {{ gSize }}<br>auto-saved to Library ✓</div>
+          <span onClick="{{ saveGenRecipe }}" style="display:flex;align-items:center;gap:9px;background:var(--paper2);border:1px solid rgba(var(--hair),.16);border-radius:9px;padding:10px 13px;font-size:13px;font-weight:600;cursor:pointer" style-hover="border-color:#D23B2E">✎ &nbsp;Save as recipe</span>
+          <span onClick="{{ sendToCompare }}" style="display:flex;align-items:center;gap:9px;background:var(--ink);color:var(--paper2);border-radius:9px;padding:10px 13px;font-size:13px;font-weight:600;cursor:pointer" style-hover="background:#D23B2E">⧉ &nbsp;Run this across all models</span>
+        </div>
+      </div>
+    </sc-if>
+  </div>
+</div>
+</sc-if>
+
+<!-- ============ COMPARE ============ -->
+<sc-if value="{{ viewCompare }}" hint-placeholder-val="{{ true }}">
+<div data-screen-label="Compare" style="max-width:1220px;width:100%;margin:0 auto;padding:26px 20px 60px;box-sizing:border-box">
+  <!-- control bar -->
+  <div style="background:var(--card);border:1px solid rgba(var(--hair),.14);border-radius:14px;padding:16px 18px;display:flex;gap:14px;align-items:center;flex-wrap:wrap">
+    <input value="{{ cPrompt }}" onChange="{{ setCPrompt }}" style="flex:2;min-width:260px;background:var(--paper2);border:1px solid rgba(var(--hair),.18);border-radius:999px;padding:11px 18px;font-family:'Instrument Sans',sans-serif;font-size:14px;color:var(--ink);outline:none" style-focus="border-color:#D23B2E" placeholder="one prompt for the whole sheet"></input>
+    <div style="position:relative">
+      <span onClick="{{ toggleCMenu }}" style="display:inline-flex;align-items:center;gap:8px;font-size:13px;font-weight:600;color:var(--ink);background:var(--paper2);border:1px solid rgba(var(--hair),.18);border-radius:999px;padding:9px 16px;cursor:pointer" style-hover="border-color:#D23B2E">{{ cmCountLabel }} <span style="color:var(--faint);font-size:10px">▾</span></span>
+      <sc-if value="{{ cMenuOpen }}" hint-placeholder-val="{{ false }}">
+        <div style="position:absolute;top:calc(100% + 8px);left:0;z-index:30;width:330px;background:var(--card);border:1px solid rgba(var(--hair),.25);border-radius:12px;box-shadow:0 24px 48px -16px rgba(30,22,10,.35);max-height:340px;overflow-y:auto;padding:7px;animation:glRise .2s cubic-bezier(.2,.7,.3,1) both">
+          <sc-for list="{{ cModelGroups }}" as="grp" hint-placeholder-count="5">
+            <div style="display:flex;justify-content:space-between;align-items:baseline;padding:8px 10px 4px"><span style="font-family:'JetBrains Mono',monospace;font-size:9.5px;letter-spacing:.12em;color:var(--faint)">{{ grp.name }}</span><span style="font-family:'JetBrains Mono',monospace;font-size:9px;color:var(--faint)">{{ grp.keyNote }}</span></div>
+            <sc-for list="{{ grp.models }}" as="m" hint-placeholder-count="2">
+              <div onClick="{{ m.pick }}" style="display:flex;justify-content:space-between;align-items:center;padding:8px 10px;border-radius:7px;cursor:pointer;opacity:{{ m.opacity }};background:{{ m.bg }}" style-hover="background:var(--chip-on)">
+                <span style="display:flex;align-items:center;gap:8px"><span style="font-size:12px;color:#D23B2E;width:13px">{{ m.check }}</span><span style="font-size:13px;font-weight:600;color:var(--ink)">{{ m.label }}</span></span>
+                <span style="font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--faint)">{{ m.meta }}</span>
+              </div>
+            </sc-for>
+          </sc-for>
+          <div style="border-top:1px dashed rgba(var(--hair),.2);margin:6px 4px 2px;padding:8px 6px 4px;font-family:'JetBrains Mono',monospace;font-size:9.5px;color:var(--faint);display:flex;justify-content:space-between"><span>{{ registryCountLabel }}</span><span>rows = models · six max</span></div>
+        </div>
+      </sc-if>
+    </div>
+    <div style="display:flex;align-items:center;gap:8px;background:var(--paper2);border:1px solid rgba(var(--hair),.18);border-radius:999px;padding:5px 7px">
+      <span onClick="{{ seedsDown }}" style="width:24px;height:24px;border-radius:50%;background:var(--chip);border:1px solid rgba(var(--hair),.2);display:flex;align-items:center;justify-content:center;font-size:13px;cursor:pointer;color:var(--muted)" style-hover="border-color:#D23B2E;color:#D23B2E">−</span>
+      <span style="font-family:'JetBrains Mono',monospace;font-size:12px;font-weight:600">{{ seeds }} seeds</span>
+      <span onClick="{{ seedsUp }}" style="width:24px;height:24px;border-radius:50%;background:var(--chip);border:1px solid rgba(var(--hair),.2);display:flex;align-items:center;justify-content:center;font-size:13px;cursor:pointer;color:var(--muted)" style-hover="border-color:#D23B2E;color:#D23B2E">+</span>
+    </div>
+    <span onClick="{{ runCompare }}" style="display:inline-flex;align-items:center;gap:10px;background:#D23B2E;color:#FFF6F0;border-radius:999px;padding:11px 22px;font-size:14px;font-weight:600;cursor:pointer;box-shadow:0 2px 0 rgba(36,31,24,.25)" style-hover="background:#B32A1F" style-active="transform:translateY(1px)">{{ runLabel }} <span style="font-family:'JetBrains Mono',monospace;font-size:11px;background:rgba(255,255,255,.2);border-radius:5px;padding:2px 7px">≈ {{ estimateLabel }}</span></span>
+  </div>
+
+  <!-- the sheet -->
+  <div style="margin:20px 0 0;background:var(--sheet-bg);border:1px solid rgba(var(--hair),.16);border-radius:14px;box-shadow:var(--sheet-shadow);padding:20px 22px 16px">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin:0 0 14px">
+      <span style="font-family:'JetBrains Mono',monospace;font-size:10.5px;letter-spacing:.14em;color:var(--sheet-muted)">CONTACT SHEET {{ sheetNo }} · "{{ cPrompt }}"</span>
+      <div style="display:flex;gap:10px;align-items:center">
+        <span style="font-family:'Caveat',cursive;font-size:19px;color:var(--sheet-ink);transform:rotate(-2deg)">this sheet: {{ gridCostLabel }}</span>
+        <span onClick="{{ saveSheetRecipe }}" style="font-family:'JetBrains Mono',monospace;font-size:10.5px;font-weight:600;color:var(--sheet-muted);border:1px solid var(--sheet-line);border-radius:6px;padding:5px 10px;cursor:pointer" style-hover="color:#D23B2E;border-color:#D23B2E">SAVE RECIPE</span>
+        <span onClick="{{ exportBoard }}" style="font-family:'JetBrains Mono',monospace;font-size:10.5px;font-weight:600;color:var(--sheet-btn-ink);background:var(--sheet-btn-bg);border-radius:6px;padding:6px 11px;cursor:pointer" style-hover="opacity:.85">EXPORT BOARD ↓</span>
+      </div>
+    </div>
+    <sc-for list="{{ compareRows }}" as="row" hint-placeholder-count="3">
+      <div style="display:grid;grid-template-columns:96px repeat({{ seeds }},1fr);gap:9px;align-items:stretch;margin:0 0 9px">
+        <div style="display:flex;flex-direction:column;justify-content:center;align-items:flex-end;padding-right:4px">
+          <span style="font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.08em;color:var(--sheet-muted)">{{ row.label }}</span>
+          <span style="font-family:'JetBrains Mono',monospace;font-size:8.5px;color:var(--sheet-faint)">{{ row.costEach }}</span>
+        </div>
+        <sc-for list="{{ row.cells }}" as="cell" hint-placeholder-count="4">
+          <div style="position:relative">
+            <sc-if value="{{ cell.isDone }}" hint-placeholder-val="{{ true }}">
+              <div onClick="{{ cell.toggleMark }}" style="cursor:pointer;border-radius:6px;border:1px solid {{ cell.border }};padding:0" style-hover="border-color:#E8483A">
+                <div style="aspect-ratio:1;border-radius:5px;background:{{ cell.bg }}"></div>
+              </div>
+              <div style="display:flex;justify-content:space-between;align-items:center;font-family:'JetBrains Mono',monospace;font-size:8.5px;color:var(--sheet-muted);margin:4px 1px 0"><span>{{ cell.tag }}</span><span>{{ cell.meta }} <span onClick="{{ cell.rerun }}" title="re-run this cell" style="cursor:pointer;color:var(--sheet-muted)" style-hover="color:#D23B2E">↻</span></span></div>
+              <sc-if value="{{ cell.mCircle }}" hint-placeholder-val="{{ false }}"><svg viewBox="0 0 100 100" style="position:absolute;inset:-8px -8px 6px -8px;overflow:visible;pointer-events:none"><path d="M50 8 C 82 4, 98 24, 94 52 C 90 82, 60 98, 32 92 C 8 86, 0 60, 8 36 C 16 14, 34 6, 62 8" fill="none" stroke="#E8483A" stroke-width="3.5" stroke-linecap="round" stroke-dasharray="330" stroke-dashoffset="330" style="animation:glDash .7s ease-out forwards"></path></svg></sc-if>
+              <sc-if value="{{ cell.mDot }}" hint-placeholder-val="{{ false }}"><span style="position:absolute;top:-8px;right:-8px;width:22px;height:22px;border-radius:50%;background:radial-gradient(circle at 35% 30%,#FF7A5C,#D9301B 70%);box-shadow:0 2px 5px rgba(120,20,0,.5);animation:glPop .35s both"></span></sc-if>
+              <sc-if value="{{ cell.mTape }}" hint-placeholder-val="{{ false }}"><span style="position:absolute;top:2px;left:-10px;background:#FBE38A;color:#5C4A12;font-family:'JetBrains Mono',monospace;font-size:8px;font-weight:600;letter-spacing:.08em;padding:2px 9px;transform:rotate(-9deg);box-shadow:0 2px 5px rgba(0,0,0,.35);opacity:.94;animation:glPop .35s both">KEEP</span></sc-if>
+              <sc-if value="{{ cell.mStar }}" hint-placeholder-val="{{ false }}"><span style="position:absolute;bottom:14px;right:0;font-family:'Caveat',cursive;font-size:30px;line-height:1;color:#E8483A;text-shadow:0 1px 3px rgba(0,0,0,.4);transform:rotate(-6deg);animation:glPop .35s both">★</span></sc-if>
+              <sc-if value="{{ cell.mStamp }}" hint-placeholder-val="{{ false }}"><span style="position:absolute;top:32%;left:-4px;border:2px solid rgba(232,72,58,.9);color:rgba(232,72,58,.95);font-family:'JetBrains Mono',monospace;font-size:9px;font-weight:600;letter-spacing:.1em;padding:3px 6px;border-radius:3px;transform:rotate(-11deg);animation:glPop .35s both">WINNER</span></sc-if>
+              <sc-if value="{{ cell.mCheck }}" hint-placeholder-val="{{ false }}"><svg viewBox="0 0 100 100" style="position:absolute;inset:10px 10px 24px 10px;pointer-events:none"><path d="M22 55 L 42 76 L 84 24" fill="none" stroke="#FFF3E8" stroke-width="10" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="120" stroke-dashoffset="120" style="animation:glDash .5s ease-out forwards;filter:drop-shadow(0 1px 3px rgba(0,0,0,.45))"></path></svg></sc-if>
+            </sc-if>
+            <sc-if value="{{ cell.isPending }}" hint-placeholder-val="{{ false }}">
+              <div style="aspect-ratio:1;border-radius:6px;border:1px dashed var(--sheet-dash);background:var(--sheet-shimmer);background-size:200% 100%;animation:glShimmer 1.5s linear infinite;box-sizing:border-box"></div>
+              <div style="font-family:'JetBrains Mono',monospace;font-size:8.5px;color:var(--sheet-faint);margin:4px 1px 0">{{ cell.tag }} · developing…</div>
+            </sc-if>
+            <sc-if value="{{ cell.isError }}" hint-placeholder-val="{{ false }}">
+              <div style="aspect-ratio:1;border-radius:6px;border:1.5px solid rgba(232,72,58,.55);background:rgba(232,72,58,.08);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;padding:8px;box-sizing:border-box;text-align:center">
+                <span style="font-family:'JetBrains Mono',monospace;font-size:9px;color:#E8483A;font-weight:600;letter-spacing:.06em">RATE LIMITED</span>
+                <span style="font-size:9.5px;color:var(--sheet-muted);line-height:1.4">provider says slow down</span>
+                <span onClick="{{ cell.rerun }}" style="font-family:'JetBrains Mono',monospace;font-size:9px;font-weight:600;color:var(--sheet-btn-ink);background:var(--sheet-btn-bg);border-radius:5px;padding:4px 9px;cursor:pointer" style-hover="opacity:.85">retry ↻</span>
+              </div>
+              <div style="font-family:'JetBrains Mono',monospace;font-size:8.5px;color:var(--sheet-faint);margin:4px 1px 0">{{ cell.tag }}</div>
+            </sc-if>
+          </div>
+        </sc-for>
+      </div>
+    </sc-for>
+    <div style="display:flex;justify-content:space-between;margin:8px 2px 0;font-family:'JetBrains Mono',monospace;font-size:9.5px;color:var(--sheet-faint)">
+      <span>click a frame to mark it with your pen · ↻ re-runs one cell only</span><span>{{ gridStatusLabel }}</span>
+    </div>
+  </div>
+
+  <!-- upsell modal -->
+  <sc-if value="{{ showUpsell }}" hint-placeholder-val="{{ false }}">
+    <div style="position:fixed;inset:0;z-index:80;background:rgba(38,33,26,.55);backdrop-filter:blur(3px);display:flex;align-items:center;justify-content:center" onClick="{{ closeUpsell }}">
+      <div style="background:var(--paper2);border-radius:18px;box-shadow:0 40px 80px -20px rgba(0,0,0,.5);width:460px;padding:34px 36px;position:relative;animation:glPop .35s cubic-bezier(.2,.7,.3,1) both">
+        <span onClick="{{ closeUpsell }}" style="position:absolute;top:14px;right:18px;font-size:18px;color:var(--faint);cursor:pointer" style-hover="color:var(--ink)">✕</span>
+        <div style="font-family:'Caveat',cursive;font-size:22px;color:#D23B2E;transform:rotate(-1.5deg)">that's the whole free roll</div>
+        <div style="font-family:'Newsreader',serif;font-size:30px;font-weight:500;margin:8px 0 0;line-height:1.15">You've used your 5 free comparison runs.</div>
+        <p style="font-size:14.5px;line-height:1.6;color:var(--muted);margin:14px 0 0">Single shots stay free forever. The grid — the thing that just found you 5 keepers — is what the license buys. Once, not monthly.</p>
+        <div style="display:flex;gap:10px;margin:22px 0 0">
+          <span onClick="{{ activateFromUpsell }}" style="flex:1;background:#D23B2E;color:#FFF6F0;border-radius:999px;padding:13px;text-align:center;font-size:14.5px;font-weight:600;cursor:pointer;box-shadow:0 2px 0 rgba(36,31,24,.25)" style-hover="background:#B32A1F">Open the grid</span>
+          <span onClick="{{ closeUpsell }}" style="background:var(--card);color:var(--ink);border:1px solid rgba(var(--hair),.2);border-radius:999px;padding:13px 18px;font-size:14.5px;font-weight:600;cursor:pointer" style-hover="border-color:var(--ink)">Later</span>
+        </div>
+        <div style="font-family:'JetBrains Mono',monospace;font-size:10.5px;color:var(--faint);margin:14px 0 0;text-align:center"></div>
+      </div>
+    </div>
+  </sc-if>
+</div>
+</sc-if>
+
+<!-- ============ LIBRARY ============ -->
+<sc-if value="{{ viewLibrary }}" hint-placeholder-val="{{ false }}">
+<div data-screen-label="Library" style="max-width:1220px;width:100%;margin:0 auto;padding:26px 20px 60px;box-sizing:border-box">
+  <div style="display:flex;gap:12px;align-items:center;flex-wrap:wrap">
+    <input value="{{ q }}" onChange="{{ setQ }}" style="flex:1;min-width:240px;background:var(--card);border:1px solid rgba(var(--hair),.16);border-radius:999px;padding:11px 18px;font-family:'Instrument Sans',sans-serif;font-size:14px;color:var(--ink);outline:none" style-focus="border-color:#D23B2E" placeholder="search prompts, tags…"></input>
+    <div style="display:flex;gap:6px">
+      <span onClick="{{ filterAll }}" style="font-size:12.5px;font-weight:600;border-radius:999px;padding:8px 14px;cursor:pointer;color:{{ fAllColor }};background:{{ fAllBg }};border:1px solid {{ fAllBorder }}">All</span>
+      <span onClick="{{ filterMarked }}" style="font-size:12.5px;font-weight:600;border-radius:999px;padding:8px 14px;cursor:pointer;color:{{ fMarkedColor }};background:{{ fMarkedBg }};border:1px solid {{ fMarkedBorder }}">Marked</span>
+      <span onClick="{{ filterFlux }}" style="font-size:12.5px;font-weight:600;border-radius:999px;padding:8px 14px;cursor:pointer;color:{{ fFluxColor }};background:{{ fFluxBg }};border:1px solid {{ fFluxBorder }}">fal.ai</span>
+      <span onClick="{{ filterGemini }}" style="font-size:12.5px;font-weight:600;border-radius:999px;padding:8px 14px;cursor:pointer;color:{{ fGeminiColor }};background:{{ fGeminiBg }};border:1px solid {{ fGeminiBorder }}">google</span>
+    </div>
+    <span style="font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--faint)">{{ libCountLabel }}</span>
+  </div>
+
+  <sc-if value="{{ libEmpty }}" hint-placeholder-val="{{ false }}">
+    <div style="margin:22px 0 0;border-radius:18px;background:radial-gradient(120% 160% at 50% -10%,#FFFEF8 0%,#F4EEDC 45%,#E7DEC4 100%);border:1px solid rgba(38,34,26,.14);box-shadow:inset 0 2px 18px rgba(255,255,255,.9), inset 0 -10px 30px rgba(120,100,60,.14);padding:70px 40px;display:flex;flex-direction:column;align-items:center;gap:14px">
+      <div style="display:flex;gap:12px">
+        <span style="width:74px;height:74px;background:#FFF;border-radius:6px;box-shadow:0 8px 18px -8px rgba(60,48,24,.35);transform:rotate(-3deg);display:flex;align-items:center;justify-content:center"><span style="width:56px;height:56px;border:1.5px dashed rgba(var(--hair),.25);border-radius:3px"></span></span>
+        <span style="width:74px;height:74px;background:#FFF;border-radius:6px;box-shadow:0 8px 18px -8px rgba(60,48,24,.35);transform:rotate(2deg);display:flex;align-items:center;justify-content:center"><span style="width:56px;height:56px;border:1.5px dashed rgba(var(--hair),.25);border-radius:3px"></span></span>
+      </div>
+      <div style="font-family:'Newsreader',serif;font-size:22px;color:var(--muted)">The light table is empty.</div>
+      <div style="font-size:13.5px;color:var(--faint);max-width:38ch;text-align:center;line-height:1.55">Everything you generate files itself here automatically — prompt, seed, params, cost, all of it.</div>
+      <span onClick="{{ goCompare }}" style="background:#D23B2E;color:#FFF6F0;border-radius:999px;padding:11px 22px;font-size:14px;font-weight:600;cursor:pointer;box-shadow:0 2px 0 rgba(36,31,24,.25)" style-hover="background:#B32A1F">Run your first sheet →</span>
+    </div>
+  </sc-if>
+
+  <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin:22px 0 0">
+    <sc-for list="{{ libItems }}" as="it" hint-placeholder-count="8">
+      <div onClick="{{ it.open }}" style="position:relative;background:#FFF;padding:9px 9px 7px;border-radius:8px;box-shadow:0 8px 20px -10px rgba(60,48,24,.35);cursor:pointer;transform:rotate({{ it.rot }})" style-hover="box-shadow:0 14px 30px -10px rgba(60,48,24,.5);transform:rotate(0deg) translateY(-3px)">
+        <div style="aspect-ratio:1;border-radius:4px;background:{{ it.bg }}"></div>
+        <div style="display:flex;justify-content:space-between;font-family:'JetBrains Mono',monospace;font-size:9px;color:#8A7C5E;margin:6px 2px 1px"><span>{{ it.model }} · s{{ it.seed }}</span><span>{{ it.cost }}</span></div>
+        <div style="font-size:11px;color:var(--muted);margin:2px 2px 0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ it.prompt }}</div>
+        <sc-if value="{{ it.mCircle }}" hint-placeholder-val="{{ false }}"><svg viewBox="0 0 100 100" style="position:absolute;inset:-6px -6px 22px -6px;overflow:visible;pointer-events:none"><path d="M50 8 C 82 4, 98 24, 94 52 C 90 82, 60 98, 32 92 C 8 86, 0 60, 8 36 C 16 14, 34 6, 62 8" fill="none" stroke="#E8483A" stroke-width="3.5" stroke-linecap="round"></path></svg></sc-if>
+        <sc-if value="{{ it.mDot }}" hint-placeholder-val="{{ false }}"><span style="position:absolute;top:-8px;right:-8px;width:22px;height:22px;border-radius:50%;background:radial-gradient(circle at 35% 30%,#FF7A5C,#D9301B 70%);box-shadow:0 2px 5px rgba(120,20,0,.4)"></span></sc-if>
+        <sc-if value="{{ it.mTape }}" hint-placeholder-val="{{ false }}"><span style="position:absolute;top:3px;left:-11px;background:#FBE38A;color:#5C4A12;font-family:'JetBrains Mono',monospace;font-size:8.5px;font-weight:600;letter-spacing:.08em;padding:3px 10px;transform:rotate(-9deg);box-shadow:0 2px 5px rgba(60,40,0,.3);opacity:.94">KEEP</span></sc-if>
+        <sc-if value="{{ it.mStar }}" hint-placeholder-val="{{ false }}"><span style="position:absolute;bottom:34px;right:4px;font-family:'Caveat',cursive;font-size:32px;line-height:1;color:#E8483A;text-shadow:0 1px 3px rgba(0,0,0,.3);transform:rotate(-6deg)">★</span></sc-if>
+        <sc-if value="{{ it.mStamp }}" hint-placeholder-val="{{ false }}"><span style="position:absolute;top:36%;left:0;border:2px solid rgba(232,72,58,.85);color:rgba(232,72,58,.9);font-family:'JetBrains Mono',monospace;font-size:10px;font-weight:600;letter-spacing:.1em;padding:3px 7px;border-radius:3px;transform:rotate(-11deg)">WINNER</span></sc-if>
+        <sc-if value="{{ it.mCheck }}" hint-placeholder-val="{{ false }}"><svg viewBox="0 0 100 100" style="position:absolute;inset:12px 12px 40px 12px;pointer-events:none"><path d="M22 55 L 42 76 L 84 24" fill="none" stroke="#FFF3E8" stroke-width="10" stroke-linecap="round" stroke-linejoin="round" style="filter:drop-shadow(0 1px 3px rgba(0,0,0,.4))"></path></svg></sc-if>
+      </div>
+    </sc-for>
+  </div>
+
+  <!-- detail overlay -->
+  <sc-if value="{{ hasDetail }}" hint-placeholder-val="{{ false }}">
+    <div style="position:fixed;inset:0;z-index:80;background:rgba(38,33,26,.55);backdrop-filter:blur(3px);display:flex;align-items:center;justify-content:center" onClick="{{ closeDetail }}">
+      <div onClick="{{ stopProp }}" style="background:var(--paper2);border-radius:18px;box-shadow:0 40px 80px -20px rgba(0,0,0,.5);width:760px;max-width:92vw;padding:26px;display:grid;grid-template-columns:1fr 250px;gap:24px;animation:glPop .35s cubic-bezier(.2,.7,.3,1) both;position:relative">
+        <span onClick="{{ closeDetail }}" style="position:absolute;top:14px;right:18px;font-size:18px;color:var(--faint);cursor:pointer;z-index:2" style-hover="color:var(--ink)">✕</span>
+        <div style="background:#FFF;padding:12px 12px 10px;border-radius:8px;box-shadow:0 16px 36px -14px rgba(60,48,24,.4);align-self:start">
+          <div style="aspect-ratio:1;border-radius:4px;background:{{ detailBg }};transition:transform .3s;cursor:zoom-in" style-hover="transform:scale(1.35)"></div>
+          <div style="display:flex;justify-content:space-between;font-family:'JetBrains Mono',monospace;font-size:10px;color:#8A7C5E;margin:8px 2px 0"><span>{{ detailModel }} · s{{ detailSeed }}</span><span>hover to zoom</span></div>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:10px;padding-top:8px">
+          <div style="font-size:14px;line-height:1.5;font-weight:600">"{{ detailPrompt }}"</div>
+          <div style="font-family:'JetBrains Mono',monospace;font-size:10.5px;color:var(--muted);line-height:2;background:var(--card);border:1px solid rgba(var(--hair),.14);border-radius:9px;padding:11px 13px">model &nbsp;{{ detailModel }}<br>seed &nbsp;&nbsp;{{ detailSeed }}<br>steps &nbsp;28 · guidance 3.5<br>size &nbsp;&nbsp;1024×1024<br>cost &nbsp;&nbsp;{{ detailCost }}<br>date &nbsp;&nbsp;{{ detailDate }}</div>
+          <span onClick="{{ markDetail }}" style="background:var(--paper2);border:1px solid rgba(var(--hair),.16);border-radius:9px;padding:10px 13px;font-size:13px;font-weight:600;cursor:pointer;text-align:center" style-hover="border-color:#D23B2E">{{ detailMarkLabel }}</span>
+          <span onClick="{{ exportDetail }}" style="background:var(--ink);color:var(--paper2);border-radius:9px;padding:10px 13px;font-size:13px;font-weight:600;cursor:pointer;text-align:center" style-hover="background:#D23B2E">↓ Export PNG</span>
+          <span onClick="{{ deleteDetail }}" style="color:#9E2A1E;border:1px solid rgba(210,59,46,.3);border-radius:9px;padding:10px 13px;font-size:13px;font-weight:600;cursor:pointer;text-align:center" style-hover="background:#FDF0EE">Delete frame</span>
+        </div>
+      </div>
+    </div>
+  </sc-if>
+</div>
+</sc-if>
+
+<!-- ============ RECIPES ============ -->
+<sc-if value="{{ viewRecipes }}" hint-placeholder-val="{{ false }}">
+<div data-screen-label="Recipes" style="max-width:1220px;width:100%;margin:0 auto;padding:26px 20px 60px;box-sizing:border-box">
+  <div style="display:flex;justify-content:space-between;align-items:center">
+    <div>
+      <div style="font-family:'Newsreader',serif;font-size:24px;font-weight:600">Recipes</div>
+      <div style="font-size:13px;color:var(--faint);margin:3px 0 0">A recipe = prompt template + models + params + seed policy. Frozen luck.</div>
+    </div>
+    <span onClick="{{ newRecipe }}" style="background:var(--ink);color:var(--paper2);border-radius:999px;padding:10px 20px;font-size:13.5px;font-weight:600;cursor:pointer" style-hover="background:#D23B2E">+ New recipe</span>
+  </div>
+
+  <sc-if value="{{ recipesEmpty }}" hint-placeholder-val="{{ false }}">
+    <div style="margin:22px 0 0;background:var(--card);border:1.5px dashed rgba(var(--hair),.25);border-radius:16px;padding:60px 40px;display:flex;flex-direction:column;align-items:center;gap:12px">
+      <span style="font-family:'Caveat',cursive;font-size:26px;color:var(--faint);transform:rotate(-2deg)">no recipes yet</span>
+      <div style="font-size:13.5px;color:var(--faint);max-width:40ch;text-align:center;line-height:1.55">Next time a comparison run lands a keeper, hit "save as recipe" — the whole setup gets frozen here for one-click re-runs.</div>
+    </div>
+  </sc-if>
+
+  <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin:22px 0 0">
+    <sc-for list="{{ recipeList }}" as="r" hint-placeholder-count="3">
+      <div style="background:var(--card);border:1px solid rgba(var(--hair),.14);border-radius:14px;padding:20px;display:flex;flex-direction:column;gap:12px" style-hover="border-color:rgba(var(--hair),.3)">
+        <div style="display:flex;justify-content:space-between;align-items:start">
+          <div style="font-family:'JetBrains Mono',monospace;font-size:13px;font-weight:600;color:var(--ink)">{{ r.name }}</div>
+          <div style="display:flex;gap:8px;font-size:12px;color:var(--faint)">
+            <span onClick="{{ r.duplicate }}" title="duplicate" style="cursor:pointer" style-hover="color:var(--ink)">⧉</span>
+            <span onClick="{{ r.remove }}" title="delete" style="cursor:pointer" style-hover="color:#9E2A1E">✕</span>
+          </div>
+        </div>
+        <div style="font-size:12.5px;line-height:1.55;color:var(--muted);background:var(--paper2);border-radius:8px;padding:9px 11px;font-style:italic">"{{ r.prompt }}"</div>
+        <div style="display:flex;flex-wrap:wrap;gap:5px">
+          <span style="font-family:'JetBrains Mono',monospace;font-size:9.5px;background:var(--ink);color:var(--paper2);border-radius:4px;padding:3px 7px">{{ r.models }}</span>
+          <span style="font-family:'JetBrains Mono',monospace;font-size:9.5px;border:1px solid rgba(var(--hair),.2);border-radius:4px;padding:3px 7px;color:var(--muted)">{{ r.seedPolicy }}</span>
+          <span style="font-family:'JetBrains Mono',monospace;font-size:9.5px;border:1px solid rgba(var(--hair),.2);border-radius:4px;padding:3px 7px;color:var(--muted)">{{ r.params }}</span>
+        </div>
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-top:auto">
+          <span style="font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--faint)">last run {{ r.lastRun }}</span>
+          <span onClick="{{ r.run }}" style="background:#D23B2E;color:#FFF6F0;border-radius:999px;padding:8px 16px;font-size:12.5px;font-weight:600;cursor:pointer;box-shadow:0 2px 0 rgba(36,31,24,.25)" style-hover="background:#B32A1F">Run ▸</span>
+        </div>
+      </div>
+    </sc-for>
+    <sc-if value="{{ editorOpen }}" hint-placeholder-val="{{ false }}">
+      <div style="background:var(--card);border:1.5px solid #D23B2E;border-radius:14px;padding:20px;display:flex;flex-direction:column;gap:11px;animation:glPop .3s both">
+        <div style="display:flex;justify-content:space-between;align-items:center"><span style="font-size:13px;font-weight:700">New recipe</span><span onClick="{{ closeEditor }}" style="font-size:14px;color:var(--faint);cursor:pointer" style-hover="color:var(--ink)">✕</span></div>
+        <input value="{{ recName }}" onChange="{{ setRecName }}" placeholder="name, e.g. og-card.v1" style="background:var(--paper2);border:1px solid rgba(var(--hair),.18);border-radius:8px;padding:9px 11px;font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--ink);outline:none" style-focus="border-color:#D23B2E"></input>
+        <textarea value="{{ recPrompt }}" onChange="{{ setRecPrompt }}" placeholder="prompt template — use {subject} for the variable part" rows="3" style="resize:none;background:var(--paper2);border:1px solid rgba(var(--hair),.18);border-radius:8px;padding:9px 11px;font-family:'Instrument Sans',sans-serif;font-size:12.5px;color:var(--ink);outline:none;line-height:1.5" style-focus="border-color:#D23B2E"></textarea>
+        <div style="font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--faint);line-height:1.7;background:var(--paper2);border:1px solid rgba(var(--hair),.14);border-radius:8px;padding:8px 10px">freezes your current Compare setup:<br><span style="color:var(--muted)">{{ editorSetupLabel }}</span></div>
+        <span onClick="{{ saveRecipe }}" style="background:var(--ink);color:var(--paper2);border-radius:999px;padding:10px;font-size:13px;font-weight:600;cursor:pointer;text-align:center;margin-top:auto" style-hover="background:#D23B2E">Save recipe</span>
+      </div>
+    </sc-if>
+  </div>
+</div>
+</sc-if>
+
+<!-- ============ SETTINGS ============ -->
+<sc-if value="{{ viewSettings }}" hint-placeholder-val="{{ false }}">
+<div data-screen-label="Settings" style="max-width:860px;width:100%;margin:0 auto;padding:26px 20px 60px;display:flex;flex-direction:column;gap:18px;box-sizing:border-box">
+
+  <!-- key vault -->
+  <div style="background:var(--card);border:1px solid rgba(var(--hair),.14);border-radius:14px;padding:22px">
+    <div style="display:flex;justify-content:space-between;align-items:baseline">
+      <div style="font-family:'Newsreader',serif;font-size:20px;font-weight:600">Key vault</div>
+      <span style="font-family:'JetBrains Mono',monospace;font-size:10.5px;color:#4C7C4C">stored in localStorage · never sent to us</span>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:10px;margin:16px 0 0">
+      <sc-for list="{{ keyRows }}" as="k" hint-placeholder-count="3">
+        <div style="display:grid;grid-template-columns:110px 1fr auto auto;gap:14px;align-items:center;background:var(--paper2);border:1px solid rgba(var(--hair),.12);border-radius:10px;padding:12px 16px">
+          <span style="font-size:13.5px;font-weight:600">{{ k.name }}</span>
+          <span style="font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--muted);overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ k.masked }}</span>
+          <span style="font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:600;color:{{ k.statusColor }}">{{ k.status }}</span>
+          <div style="display:flex;gap:8px">
+            <span onClick="{{ k.test }}" style="font-size:12px;font-weight:600;color:var(--muted);border:1px solid rgba(var(--hair),.2);border-radius:999px;padding:6px 13px;cursor:pointer" style-hover="border-color:var(--ink);color:var(--ink)">{{ k.testLabel }}</span>
+            <span onClick="{{ k.remove }}" style="font-size:12px;font-weight:600;color:#9E2A1E;border:1px solid rgba(210,59,46,.25);border-radius:999px;padding:6px 13px;cursor:pointer" style-hover="background:#FDF0EE">remove</span>
+          </div>
+        </div>
+      </sc-for>
+      <sc-if value="{{ noKeys }}" hint-placeholder-val="{{ false }}">
+        <div style="border:1.5px dashed rgba(var(--hair),.25);border-radius:10px;padding:20px;text-align:center;font-size:13px;color:var(--faint)">The vault is empty. Paste your first key below — takes 20 seconds.</div>
+      </sc-if>
+      <div style="display:flex;gap:10px;margin:4px 0 0">
+        <select value="{{ addProv }}" onChange="{{ setAddProv }}" style="background:var(--paper2);border:1px solid rgba(var(--hair),.18);border-radius:9px;padding:9px 11px;font-size:13px;color:var(--ink);outline:none">
+          <option value="fal">fal.ai</option><option value="google">Google Gemini</option><option value="openai">OpenAI</option>
+        </select>
+        <input value="{{ addKeyVal }}" onChange="{{ setAddKeyVal }}" placeholder="paste API key…" style="flex:1;background:var(--paper2);border:1px solid rgba(var(--hair),.18);border-radius:9px;padding:9px 13px;font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--ink);outline:none" style-focus="border-color:#D23B2E"></input>
+        <span onClick="{{ addKey }}" style="background:var(--ink);color:var(--paper2);border-radius:9px;padding:9px 18px;font-size:13px;font-weight:600;cursor:pointer" style-hover="background:#D23B2E">Add &amp; test</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- model registry -->
+  <div style="background:var(--card);border:1px solid rgba(var(--hair),.14);border-radius:14px;padding:22px">
+    <div style="display:flex;justify-content:space-between;align-items:baseline">
+      <div style="font-family:'Newsreader',serif;font-size:20px;font-weight:600">Model registry</div>
+      <span style="font-family:'JetBrains Mono',monospace;font-size:10.5px;color:var(--faint)">{{ registryCountLabel }} · synced 2h ago</span>
+    </div>
+    <div style="display:flex;align-items:center;gap:10px;margin:14px 0 0;flex-wrap:wrap">
+      <sc-for list="{{ registryProviders }}" as="p" hint-placeholder-count="5">
+        <span style="font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--muted);background:var(--paper2);border:1px solid rgba(var(--hair),.14);border-radius:7px;padding:6px 11px">{{ p.name }} <span style="color:{{ p.color }}">{{ p.note }}</span></span>
+      </sc-for>
+      <span onClick="{{ syncRegistry }}" style="margin-left:auto;font-size:12px;font-weight:600;color:var(--muted);border:1px solid rgba(var(--hair),.2);border-radius:999px;padding:6px 14px;cursor:pointer" style-hover="border-color:var(--ink);color:var(--ink)">sync now ↻</span>
+    </div>
+    <div style="font-size:12px;color:var(--faint);margin:12px 0 0">The list updates itself from a published registry — new models appear without an app update, free on every tier.</div>
+  </div>
+
+  <!-- license -->
+  <div style="background:var(--card);border:1px solid rgba(var(--hair),.14);border-radius:14px;padding:22px">
+    <div style="font-family:'Newsreader',serif;font-size:20px;font-weight:600">License</div>
+    <sc-if value="{{ isTrial }}" hint-placeholder-val="{{ true }}">
+      <div style="display:flex;gap:10px;margin:14px 0 0;align-items:center">
+        <input value="{{ license }}" onChange="{{ setLicense }}" placeholder="GRIDLOOM-XXXX-XXXX-XXXX" style="flex:1;background:var(--paper2);border:1px solid rgba(var(--hair),.18);border-radius:9px;padding:10px 13px;font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--ink);outline:none" style-focus="border-color:#D23B2E"></input>
+        <span onClick="{{ activate }}" style="background:#D23B2E;color:#FFF6F0;border-radius:9px;padding:10px 20px;font-size:13px;font-weight:600;cursor:pointer;box-shadow:0 2px 0 rgba(36,31,24,.25)" style-hover="background:#B32A1F">Activate</span>
+      </div>
+      <div style="font-size:12.5px;color:var(--faint);margin:10px 0 0">Trial: unlimited single shots, {{ trialLabel }}. </div>
+    </sc-if>
+    <sc-if value="{{ isLicensed }}" hint-placeholder-val="{{ false }}">
+      <div style="display:flex;align-items:center;gap:12px;margin:14px 0 0;background:#F2F7F0;border:1.5px solid rgba(76,124,76,.4);border-radius:10px;padding:14px 16px;animation:glPop .35s both">
+        <svg width="22" height="22" viewBox="0 0 100 100"><path d="M22 55 L 42 76 L 84 24" fill="none" stroke="#4C7C4C" stroke-width="12" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+        <div><div style="font-size:14px;font-weight:600;color:#33502F">Standard license active</div><div style="font-family:'JetBrains Mono',monospace;font-size:10.5px;color:#6E8A66">GRIDLOOM-••••-••••-7F2A · yours forever, all machines</div></div>
+      </div>
+    </sc-if>
+  </div>
+
+  <!-- your pen -->
+  <div style="background:var(--card);border:1px solid rgba(var(--hair),.14);border-radius:14px;padding:22px">
+    <div style="display:flex;justify-content:space-between;align-items:baseline">
+      <div style="font-family:'Newsreader',serif;font-size:20px;font-weight:600">Your pen</div>
+      <span style="font-size:12px;color:var(--faint)">how you mark a winner, everywhere</span>
+    </div>
+    <div style="display:flex;flex-wrap:wrap;gap:9px;margin:16px 0 0">
+      <span onClick="{{ pickCircle }}" style="display:inline-flex;align-items:center;gap:7px;font-size:13px;font-weight:600;color:{{ penCircleColor }};background:{{ penCircleBg }};border:1.5px solid {{ penCircleBorder }};border-radius:999px;padding:8px 15px;cursor:pointer" style-hover="border-color:#D23B2E"><svg width="14" height="14" viewBox="0 0 100 100"><path d="M50 8 C 82 4, 98 24, 94 52 C 90 82, 60 98, 32 92 C 8 86, 0 60, 8 36 C 16 14, 34 6, 62 8" fill="none" stroke="#E8483A" stroke-width="9" stroke-linecap="round"></path></svg>Grease pencil</span>
+      <span onClick="{{ pickDot }}" style="display:inline-flex;align-items:center;gap:7px;font-size:13px;font-weight:600;color:{{ penDotColor }};background:{{ penDotBg }};border:1.5px solid {{ penDotBorder }};border-radius:999px;padding:8px 15px;cursor:pointer" style-hover="border-color:#D23B2E"><span style="width:12px;height:12px;border-radius:50%;background:radial-gradient(circle at 35% 30%,#FF7A5C,#D9301B 70%)"></span>Red dot</span>
+      <span onClick="{{ pickTape }}" style="display:inline-flex;align-items:center;gap:7px;font-size:13px;font-weight:600;color:{{ penTapeColor }};background:{{ penTapeBg }};border:1.5px solid {{ penTapeBorder }};border-radius:999px;padding:8px 15px;cursor:pointer" style-hover="border-color:#D23B2E"><span style="width:16px;height:9px;background:#FBE38A;transform:rotate(-8deg);box-shadow:0 1px 2px rgba(60,40,0,.25)"></span>Washi tape</span>
+      <span onClick="{{ pickStar }}" style="display:inline-flex;align-items:center;gap:7px;font-size:13px;font-weight:600;color:{{ penStarColor }};background:{{ penStarBg }};border:1.5px solid {{ penStarBorder }};border-radius:999px;padding:8px 15px;cursor:pointer" style-hover="border-color:#D23B2E"><span style="font-family:'Caveat',cursive;font-size:16px;line-height:1;color:#E8483A">★</span>Marker star</span>
+      <span onClick="{{ pickStamp }}" style="display:inline-flex;align-items:center;gap:7px;font-size:13px;font-weight:600;color:{{ penStampColor }};background:{{ penStampBg }};border:1.5px solid {{ penStampBorder }};border-radius:999px;padding:8px 15px;cursor:pointer" style-hover="border-color:#D23B2E"><span style="border:1.5px solid rgba(232,72,58,.85);color:rgba(232,72,58,.9);font-family:'JetBrains Mono',monospace;font-size:7px;font-weight:600;letter-spacing:.1em;padding:1px 4px;border-radius:2px;transform:rotate(-8deg)">WIN</span>Stamp</span>
+      <span onClick="{{ pickCheck }}" style="display:inline-flex;align-items:center;gap:7px;font-size:13px;font-weight:600;color:{{ penCheckColor }};background:{{ penCheckBg }};border:1.5px solid {{ penCheckBorder }};border-radius:999px;padding:8px 15px;cursor:pointer" style-hover="border-color:#D23B2E"><svg width="13" height="13" viewBox="0 0 100 100"><path d="M22 55 L 42 76 L 84 24" fill="none" stroke="#4C7C4C" stroke-width="14" stroke-linecap="round" stroke-linejoin="round"></path></svg>Paint check</span>
+    </div>
+  </div>
+
+  <!-- defaults -->
+  <div style="background:var(--card);border:1px solid rgba(var(--hair),.14);border-radius:14px;padding:22px">
+    <div style="font-family:'Newsreader',serif;font-size:20px;font-weight:600">Studio defaults</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px;margin:16px 0 0">
+      <div style="display:flex;flex-direction:column;gap:6px">
+        <label style="font-size:12px;font-weight:600;color:var(--muted)">Default size</label>
+        <select value="{{ defSize }}" onChange="{{ setDefSize }}" style="background:var(--paper2);border:1px solid rgba(var(--hair),.18);border-radius:8px;padding:8px 9px;font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--ink);outline:none">
+          <option value="1024×1024">1024×1024</option>
+          <option value="1344×768">1344×768</option>
+          <option value="768×1344">768×1344</option>
+        </select>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:6px">
+        <label style="font-size:12px;font-weight:600;color:var(--muted)">Seed policy</label>
+        <div style="display:flex;gap:6px">
+          <span onClick="{{ setSeedRandom }}" style="flex:1;text-align:center;font-size:12px;font-weight:600;border-radius:8px;padding:8px 4px;cursor:pointer;color:{{ dSeedRandomColor }};background:{{ dSeedRandomBg }};border:1px solid {{ dSeedRandomBorder }}">random</span>
+          <span onClick="{{ setSeedFixed }}" style="flex:1;text-align:center;font-size:12px;font-weight:600;border-radius:8px;padding:8px 4px;cursor:pointer;color:{{ dSeedFixedColor }};background:{{ dSeedFixedBg }};border:1px solid {{ dSeedFixedBorder }}">fixed</span>
+        </div>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:6px">
+        <label style="font-size:12px;font-weight:600;color:var(--muted)">Export format</label>
+        <div style="display:flex;gap:6px">
+          <span onClick="{{ setPng }}" style="flex:1;text-align:center;font-size:12px;font-weight:600;border-radius:8px;padding:8px 4px;cursor:pointer;color:{{ dPngColor }};background:{{ dPngBg }};border:1px solid {{ dPngBorder }}">PNG</span>
+          <span onClick="{{ setWebp }}" style="flex:1;text-align:center;font-size:12px;font-weight:600;border-radius:8px;padding:8px 4px;cursor:pointer;color:{{ dWebpColor }};background:{{ dWebpBg }};border:1px solid {{ dWebpBorder }}">WebP</span>
+        </div>
+      </div>
+    </div>
+    <div style="font-size:12px;color:var(--faint);margin:12px 0 0">Exports always embed the full negative — prompt, model, seed, params, cost — in the file's metadata.</div>
+  </div>
+
+  <!-- appearance + data -->
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:18px">
+    <div style="background:var(--card);border:1px solid rgba(var(--hair),.14);border-radius:14px;padding:22px">
+      <div style="font-family:'Newsreader',serif;font-size:20px;font-weight:600">Appearance</div>
+      <div style="display:flex;gap:8px;margin:16px 0 0">
+        <span onClick="{{ themeLight }}" style="flex:1;text-align:center;background:{{ thLightBg }};color:{{ thLightColor }};border:1px solid {{ thLightBorder }};border-radius:9px;padding:10px;font-size:13px;font-weight:600;cursor:pointer" style-hover="border-color:var(--ink)">☀︎ &nbsp;Studio light</span>
+        <span onClick="{{ themeDark }}" style="flex:1;text-align:center;background:{{ thDarkBg }};color:{{ thDarkColor }};border:1px solid {{ thDarkBorder }};border-radius:9px;padding:10px;font-size:13px;font-weight:600;cursor:pointer" style-hover="border-color:var(--ink)">☾ &nbsp;Darkroom</span>
+      </div>
+      <div style="font-size:12px;color:var(--faint);margin:12px 0 0">Prints get judged under studio light. Darkroom is for the late-night seed hunts.</div>
+    </div>
+    <div style="background:var(--card);border:1px solid rgba(var(--hair),.14);border-radius:14px;padding:22px">
+      <div style="font-family:'Newsreader',serif;font-size:20px;font-weight:600">Your data</div>
+      <div style="display:flex;gap:8px;margin:16px 0 0">
+        <span onClick="{{ exportAll }}" style="flex:1;text-align:center;background:var(--paper2);border:1px solid rgba(var(--hair),.18);border-radius:9px;padding:10px;font-size:13px;font-weight:600;cursor:pointer" style-hover="border-color:var(--ink)">Export everything</span>
+        <sc-if value="{{ notConfirmingWipe }}" hint-placeholder-val="{{ true }}">
+          <span onClick="{{ askWipe }}" style="flex:1;text-align:center;color:#9E2A1E;border:1px solid rgba(210,59,46,.3);border-radius:9px;padding:10px;font-size:13px;font-weight:600;cursor:pointer" style-hover="background:#FDF0EE">Wipe all data</span>
+        </sc-if>
+        <sc-if value="{{ confirmingWipe }}" hint-placeholder-val="{{ false }}">
+          <span onClick="{{ doWipe }}" style="flex:1;text-align:center;color:#FFF6F0;background:#9E2A1E;border-radius:9px;padding:10px;font-size:13px;font-weight:700;cursor:pointer;animation:glPop .25s both">Sure? This deletes everything</span>
+        </sc-if>
+      </div>
+      <div style="display:flex;justify-content:space-between;font-family:'JetBrains Mono',monospace;font-size:10.5px;color:var(--faint);margin:12px 0 0;border-top:1px dashed rgba(var(--hair),.2);padding-top:10px"><span>{{ storageLabel }}</span><span>last backup 3d ago</span></div>
+      <div style="font-size:12px;color:var(--faint);margin:8px 0 0">Backups are a zip of images + a JSON of metadata, keys excluded. Restore from Settings on any machine.</div>
+    </div>
+  </div>
+</div>
+</sc-if>
+
+</div>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;freshInstall&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:false,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;States&quot;}}">
+const GRADS = [
+  "linear-gradient(135deg,#D9A05B,#8C5A2E 60%,#3E2A18)",
+  "linear-gradient(160deg,#E8C285,#A06A32 55%,#57381C)",
+  "linear-gradient(120deg,#F2D8A0,#B5763B 50%,#6B4520)",
+  "linear-gradient(200deg,#CE9A54,#7E5128 65%,#42301C)",
+  "linear-gradient(140deg,#B9C49A,#6E7C4C 60%,#333D22)",
+  "linear-gradient(170deg,#D2D8B0,#889460 55%,#49502E)",
+  "linear-gradient(115deg,#C7CFA2,#75834E 55%,#3A4426)",
+  "linear-gradient(150deg,#9AB3C4,#4C6E7C 60%,#22333D)",
+  "linear-gradient(125deg,#C4B2D9,#7C5A8C 60%,#3A2A44)",
+  "linear-gradient(155deg,#D9B2A8,#8C5A50 60%,#442A26)",
+  "linear-gradient(145deg,#A8C4BD,#50776E 60%,#26383A)",
+  "linear-gradient(105deg,#E0C8A0,#9A7844 60%,#4A3820)",
+];
+// Mirrors src/lib/models.ts in the repo — real launch registry.
+const PROVIDERS = [
+  { id: "fal", name: "fal.ai", models: [
+    { id: "flux11", full: "fal-ai/flux-pro/v1.1", label: "FLUX 1.1 pro", short: "FLUX 1.1", cost: 0.04, maxSize: "2048×2048", caps: { steps: false, guidance: false, seed: true, neg: false } },
+    { id: "fluxdev", full: "fal-ai/flux/dev", label: "FLUX dev", short: "FLUX DEV", cost: 0.025, maxSize: "1536×1536", caps: { steps: true, guidance: true, seed: true, neg: false } },
+    { id: "schnell", full: "fal-ai/flux/schnell", label: "FLUX schnell", short: "SCHNELL", cost: 0.003, maxSize: "1536×1536", caps: { steps: true, guidance: false, seed: true, neg: false } },
+    { id: "sdxl", full: "fal-ai/fast-sdxl", label: "Fast SDXL", short: "SDXL", cost: 0.01, maxSize: "1536×1536", caps: { steps: true, guidance: true, seed: true, neg: true } },
+    { id: "recraft", full: "fal-ai/recraft-v3", label: "Recraft v3", short: "RECRAFT", cost: 0.04, maxSize: "2048×1024", caps: { steps: false, guidance: false, seed: false, neg: false } },
+  ] },
+  { id: "google", name: "Google Gemini", models: [
+    { id: "nano", full: "gemini-2.5-flash-image", label: "Nano Banana", short: "NANO-B", cost: 0.039, maxSize: "1024×1024", caps: { steps: false, guidance: false, seed: false, neg: false } },
+  ] },
+  { id: "openai", name: "OpenAI", models: [
+    { id: "gptimg1", full: "gpt-image-1", label: "GPT Image 1", short: "GPT IMG1", cost: 0.042, maxSize: "1536×1024", caps: { steps: false, guidance: false, seed: false, neg: false } },
+  ] },
+];
+const ALL_MODELS = [];
+PROVIDERS.forEach((p) => p.models.forEach((m) => ALL_MODELS.push({ ...m, provider: p.id, providerName: p.name })));
+const byId = (id) => ALL_MODELS.find((m) => m.id === id);
+const fmt = (n) => "$" + n.toFixed(n < 0.1 ? 3 : 2);
+
+function initialCells() {
+  const ids = ["flux11", "nano", "gptimg1"];
+  const cells = {};
+  ids.forEach((id, mi) => {
+    for (let s = 0; s < 4; s++) {
+      const key = id + s;
+      if (id === "gptimg1" && s === 2) { cells[key] = { status: "error" }; continue; }
+      cells[key] = { status: "done", bg: GRADS[(mi * 4 + s) % GRADS.length], time: (1.6 + ((mi * 4 + s) * 37) % 21 / 10).toFixed(1) };
+    }
+  });
+  return cells;
+}
+function initialItems() {
+  const prompts = ["ceramic teapot, morning light, film grain", "brand mascot, riso print style", "isometric tiny bakery, clay render", "og card background, warm gradient mesh", "product hero, studio sweep, soft box", "empty-state illustration, hand-drawn", "app icon, glass and clay", "launch poster, letterpress texture", "avatar set, gouache portrait"];
+  const pool = ["flux11", "schnell", "nano", "gptimg1", "sdxl", "recraft", "fluxdev"];
+  return prompts.map((p, i) => {
+    const m = byId(pool[i % pool.length]);
+    return {
+      id: i, prompt: p, model: m.full, modelId: m.id, provider: m.provider,
+      seed: 41 + (i * 7) % 20, cost: fmt(m.cost), bg: GRADS[(i * 5) % GRADS.length],
+      marked: i === 2 || i === 5, date: "2026-07-0" + ((i % 3) + 1),
+      rot: ((i * 13) % 5 - 2) * 0.8 + "deg",
+    };
+  });
+}
+function initialRecipes() {
+  return [
+    { id: 1, name: "product-hero.v3", prompt: "{subject}, studio sweep, soft box, 85mm, quiet confidence", modelIds: ["flux11", "nano"], seeds: 4, models: "FLUX 1.1 pro + Nano Banana", seedPolicy: "seeds: sweep ×4", params: "28st · g3.5", lastRun: "2d ago" },
+    { id: 2, name: "og-card.v1", prompt: "{subject}, warm gradient mesh, generous negative space, top-left light", modelIds: ["flux11"], seeds: 3, models: "FLUX 1.1 pro", seedPolicy: "seed: fixed 41", params: "24st · g3.0", lastRun: "5d ago" },
+    { id: 3, name: "riso-mascot", prompt: "{subject} mascot, riso print, two-ink, registration drift", modelIds: ["flux11", "nano", "gptimg1"], seeds: 3, models: "3 models", seedPolicy: "seeds: sweep ×3", params: "30st · g4.0", lastRun: "1w ago" },
+  ];
+}
+
+class Component extends DCLogic {
+  state = {
+    view: "compare", mark: "grease-pencil", toast: "",
+    sessionCost: 0.14, trialLeft: 2, licensed: false,
+    cPrompt: "ceramic teapot, morning light, film grain", seeds: 4,
+    cm: { flux11: true, nano: true, gptimg1: true },
+    cells: initialCells(), winner: "flux112", sheetNo: 14, running: false, showUpsell: false,
+    cMenuOpen: false,
+    gPrompt: "", gNeg: "", gModel: "fluxdev", steps: 28, guidance: 3.5, gSeed: "41", gSize: "1024×1024",
+    showGuide: false,
+    gMenuOpen: false, gRef: false, gStrength: 0.65,
+    gen: "idle", genBg: GRADS[2], genStarred: false,
+    q: "", filter: "all", items: initialItems(), detail: null,
+    recipes: initialRecipes(), editorOpen: false, recName: "", recPrompt: "",
+    keys: { fal: "valid", google: "valid", openai: "invalid" },
+    addProv: "google", addKeyVal: "",
+    defSize: "1024×1024", defSeedPolicy: "random", defFormat: "PNG",
+    license: "", confirmWipe: false, wiped: false,
+    theme: "light",
+  };
+  _timers = [];
+  componentDidMount() {
+    let t = "light";
+    try { t = localStorage.getItem("gridloom-theme") === "dark" ? "dark" : "light"; } catch (e) {}
+    this.applyTheme(t);
+    if (t !== this.state.theme) this.setState({ theme: t });
+  }
+  applyTheme(t) {
+    if (t === "dark") document.body.setAttribute("data-gl-theme", "dark");
+    else document.body.removeAttribute("data-gl-theme");
+  }
+  setTheme(t) {
+    this.applyTheme(t);
+    try { localStorage.setItem("gridloom-theme", t); } catch (e) {}
+    this.setState({ theme: t });
+    this.say(t === "dark" ? "safelight on — welcome to the darkroom" : "lights up — back in the studio");
+  }
+  componentWillUnmount() { this._timers.forEach(clearTimeout); this.applyTheme("light"); }
+  later(fn, ms) { this._timers.push(setTimeout(fn, ms)); }
+  say(msg) {
+    this.setState({ toast: msg });
+    this.later(() => this.setState({ toast: "" }), 2600);
+  }
+
+  runCompare() {
+    const st = this.state;
+    if (st.running) return;
+    if (!st.licensed && st.trialLeft <= 0) { this.setState({ showUpsell: true }); return; }
+    const sel = ALL_MODELS.filter((m) => st.cm[m.id]);
+    if (!sel.length) { this.say("pick at least one model"); return; }
+    const cells = {};
+    sel.forEach((m) => { for (let s = 0; s < st.seeds; s++) cells[m.id + s] = { status: "pending" }; });
+    const est = sel.reduce((a, m) => a + m.cost * st.seeds, 0);
+    this.setState({ cells, running: true, winner: null, sheetNo: st.sheetNo + 1, trialLeft: st.licensed ? st.trialLeft : st.trialLeft - 1 });
+    let done = 0, total = sel.length * st.seeds, gi = Math.floor(Math.random() * 6);
+    sel.forEach((m, mi) => {
+      for (let s = 0; s < st.seeds; s++) {
+        const key = m.id + s;
+        this.later(() => {
+          const c = { ...this.state.cells };
+          c[key] = { status: "done", bg: GRADS[(gi + mi * st.seeds + s) % GRADS.length], time: (1.4 + Math.random() * 2.4).toFixed(1) };
+          done++;
+          const patch = { cells: c };
+          if (done === total) { patch.running = false; patch.sessionCost = this.state.sessionCost + est; }
+          this.setState(patch);
+        }, 500 + (mi * st.seeds + s) * 420 + Math.random() * 300);
+      }
+    });
+  }
+  rerunCell(key, model) {
+    const c = { ...this.state.cells };
+    c[key] = { status: "pending" };
+    this.setState({ cells: c });
+    this.later(() => {
+      const c2 = { ...this.state.cells };
+      c2[key] = { status: "done", bg: GRADS[Math.floor(Math.random() * GRADS.length)], time: (1.4 + Math.random() * 2.4).toFixed(1) };
+      this.setState({ cells: c2, sessionCost: this.state.sessionCost + model.cost });
+    }, 900 + Math.random() * 700);
+  }
+
+  renderVals() {
+    const st = this.state;
+    const fresh = this.props.freshInstall ?? false;
+    const mark = st.mark;
+    const view = st.view;
+    const go = (v) => () => this.setState({ view: v, detail: null, gMenuOpen: false, cMenuOpen: false });
+    const tab = (name, v) => ({
+      ["tab" + name + "Color"]: view === v ? "var(--paper2)" : "var(--muted)",
+      ["tab" + name + "Bg"]: view === v ? "var(--ink)" : "transparent",
+    });
+    const markBools = (on) => ({
+      mCircle: on && mark === "grease-pencil", mDot: on && mark === "red-dot", mTape: on && mark === "washi-tape",
+      mStar: on && mark === "marker-star", mStamp: on && mark === "stamp", mCheck: on && mark === "paint-check",
+    });
+    const chip = (name, on) => ({
+      ["pen" + name + "Color"]: on ? "var(--ink)" : "var(--muted)",
+      ["pen" + name + "Bg"]: on ? "var(--chip-on)" : "var(--paper2)",
+      ["pen" + name + "Border"]: on ? "#D23B2E" : "rgba(var(--hair),.2)",
+    });
+    const mchip = (prefix, name, on) => ({
+      [prefix + name + "Color"]: on ? "var(--paper2)" : "var(--faint)",
+      [prefix + name + "Bg"]: on ? "var(--ink)" : "var(--chip)",
+      [prefix + name + "Border"]: on ? "var(--ink)" : "rgba(var(--hair),.25)",
+    });
+    const fchip = (name, on) => ({
+      ["f" + name + "Color"]: on ? "var(--paper2)" : "var(--muted)",
+      ["f" + name + "Bg"]: on ? "var(--ink)" : "var(--card)",
+      ["f" + name + "Border"]: on ? "var(--ink)" : "rgba(var(--hair),.18)",
+    });
+    const dchip = (name, on) => ({
+      ["d" + name + "Color"]: on ? "var(--paper2)" : "var(--muted)",
+      ["d" + name + "Bg"]: on ? "var(--ink)" : "var(--paper2)",
+      ["d" + name + "Border"]: on ? "var(--ink)" : "rgba(var(--hair),.2)",
+    });
+    const gm = byId(st.gModel);
+    const keyState = (p) => (fresh ? undefined : st.keys[p]);
+    const modelGroups = (kind) => PROVIDERS.map((p) => ({
+      name: p.name,
+      keyNote: keyState(p.id) === "valid" ? "key ✓" : keyState(p.id) === "invalid" ? "key ✗" : keyState(p.id) === "testing" ? "testing…" : "no key",
+      models: p.models.map((m) => {
+        const hasKey = !!keyState(p.id);
+        const active = kind === "g" ? st.gModel === m.id : !!st.cm[m.id];
+        return {
+          label: m.label,
+          meta: hasKey ? fmt(m.cost) + "/img" : "no key — add in Settings",
+          check: kind === "c" ? (active ? "☑" : "☐") : (active ? "●" : ""),
+          opacity: hasKey ? "1" : ".45",
+          bg: active ? "var(--chip-on)" : "transparent",
+          pick: () => {
+            if (!hasKey) { this.say("add a " + p.name + " key in Settings to shoot with " + m.label); return; }
+            if (kind === "g") { this.setState({ gModel: m.id, gMenuOpen: false }); return; }
+            const cm = { ...this.state.cm };
+            if (cm[m.id]) delete cm[m.id];
+            else {
+              if (Object.keys(cm).length >= 6) { this.say("six models max on one sheet"); return; }
+              cm[m.id] = true;
+            }
+            this.setState({ cm });
+          },
+        };
+      }),
+    }));
+
+    // compare rows
+    const sel = ALL_MODELS.filter((m) => st.cm[m.id]);
+    const est = sel.reduce((a, m) => a + m.cost * st.seeds, 0);
+    let gridCost = 0, doneCt = 0, totalCt = 0;
+    const compareRows = sel.map((m) => ({
+      label: m.short, costEach: fmt(m.cost) + "/img",
+      cells: Array.from({ length: st.seeds }, (_, s) => {
+        const key = m.id + s;
+        const c = st.cells[key] || { status: "pending" };
+        totalCt++;
+        if (c.status === "done") { gridCost += m.cost; doneCt++; }
+        return {
+          isDone: c.status === "done", isPending: c.status === "pending", isError: c.status === "error",
+          bg: c.bg, tag: "s" + (41 + s),
+          meta: fmt(m.cost) + " · " + (c.time || "0") + "s",
+          border: st.winner === key ? "#E8483A" : "var(--sheet-line)",
+          toggleMark: () => this.setState({ winner: st.winner === key ? null : key }),
+          rerun: (e) => { if (e && e.stopPropagation) e.stopPropagation(); this.rerunCell(key, m); },
+          ...markBools(st.winner === key),
+        };
+      }),
+    }));
+
+    // library
+    const items = (fresh || st.wiped) ? [] : st.items;
+    const filtered = items.filter((it) => {
+      if (st.q && !it.prompt.toLowerCase().includes(st.q.toLowerCase())) return false;
+      if (st.filter === "marked") return it.marked;
+      if (st.filter === "fal" || st.filter === "google") return it.provider === st.filter;
+      return true;
+    });
+    const detail = st.detail !== null ? items.find((i) => i.id === st.detail) : null;
+
+    // recipes
+    const recipes = (fresh || st.wiped) ? [] : st.recipes;
+
+    // keys
+    const keyDefs = [
+      { id: "fal", name: "fal.ai", masked: "fal_••••••••••••7f2a" },
+      { id: "google", name: "Google Gemini", masked: "AIza••••••••••••q9Lm" },
+      { id: "openai", name: "OpenAI", masked: "sk-proj-••••••••••••x2Rd" },
+    ];
+    const keyRows = fresh ? [] : keyDefs.filter((k) => st.keys[k.id]).map((k) => {
+      const status = st.keys[k.id];
+      return {
+        ...k,
+        status: status === "valid" ? "✓ works" : status === "testing" ? "testing…" : "✗ invalid key",
+        statusColor: status === "valid" ? "#4C7C4C" : status === "testing" ? "#B5763B" : "#C83A2C",
+        testLabel: status === "testing" ? "…" : "test",
+        test: () => {
+          this.setState({ keys: { ...this.state.keys, [k.id]: "testing" } });
+          this.later(() => {
+            this.setState({ keys: { ...this.state.keys, [k.id]: k.id === "openai" ? "invalid" : "valid" } });
+            this.say(k.id === "openai" ? "OpenAI: 401 — key rejected by provider" : k.name + " key works");
+          }, 900);
+        },
+        remove: () => { const ks = { ...this.state.keys }; delete ks[k.id]; this.setState({ keys: ks }); this.say(k.name + " key removed from this browser"); },
+      };
+    });
+
+    return {
+      // chrome
+      ...tab("Generate", "generate"), ...tab("Compare", "compare"), ...tab("Library", "library"), ...tab("Recipes", "recipes"), ...tab("Settings", "settings"),
+      goGenerate: go("generate"), goCompare: go("compare"), goLibrary: go("library"), goRecipes: go("recipes"), goSettings: go("settings"),
+      viewGenerate: view === "generate", viewCompare: view === "compare", viewLibrary: view === "library", viewRecipes: view === "recipes", viewSettings: view === "settings",
+      sessionCostLabel: "$" + st.sessionCost.toFixed(4).replace(/0+$/, "").replace(/\.$/, ".00"),
+      isTrial: !st.licensed, isLicensed: st.licensed,
+      trialLabel: Math.max(0, st.trialLeft) + " of 5 grid runs left",
+      hasToast: !!st.toast, toast: st.toast,
+
+      // marks shared
+      markIsCircle: mark === "grease-pencil", markIsDot: mark === "red-dot", markIsTape: mark === "washi-tape",
+      markIsStar: mark === "marker-star", markIsStamp: mark === "stamp", markIsCheck: mark === "paint-check",
+      pickCircle: () => { this.setState({ mark: "grease-pencil" }); this.say("your pen: grease pencil"); },
+      pickDot: () => { this.setState({ mark: "red-dot" }); this.say("your pen: red dot"); },
+      pickTape: () => { this.setState({ mark: "washi-tape" }); this.say("your pen: washi tape"); },
+      pickStar: () => { this.setState({ mark: "marker-star" }); this.say("your pen: marker star"); },
+      pickStamp: () => { this.setState({ mark: "stamp" }); this.say("your pen: stamp"); },
+      pickCheck: () => { this.setState({ mark: "paint-check" }); this.say("your pen: paint check"); },
+      ...chip("Circle", mark === "grease-pencil"), ...chip("Dot", mark === "red-dot"), ...chip("Tape", mark === "washi-tape"),
+      ...chip("Star", mark === "marker-star"), ...chip("Stamp", mark === "stamp"), ...chip("Check", mark === "paint-check"),
+
+      // generate
+      noKeys: fresh,
+      gPrompt: st.gPrompt, setGPrompt: (e) => this.setState({ gPrompt: e.target.value }),
+      gNeg: st.gNeg, setGNeg: (e) => this.setState({ gNeg: e.target.value }),
+      gModel: gm.full, gSeed: st.gSeed, setGSeed: (e) => this.setState({ gSeed: e.target.value }),
+      gSize: st.gSize, setGSize: (e) => this.setState({ gSize: e.target.value }),
+      steps: st.steps, setSteps: (e) => this.setState({ steps: +e.target.value }),
+      guidance: st.guidance, setGuidance: (e) => this.setState({ guidance: +e.target.value }),
+      capSteps: gm.caps.steps, capGuidance: gm.caps.guidance, capSeed: gm.caps.seed, capNegative: gm.caps.neg,
+      hasAutoNote: !(gm.caps.steps && gm.caps.guidance && gm.caps.seed && gm.caps.neg),
+      autoNote: (() => {
+        const hidden = [];
+        if (!gm.caps.neg) hidden.push("negative prompt");
+        if (!gm.caps.steps) hidden.push("steps");
+        if (!gm.caps.guidance) hidden.push("guidance");
+        if (!gm.caps.seed) hidden.push("seed");
+        return gm.label + " manages " + hidden.join(", ") + " internally — those knobs are hidden, not missing.";
+      })(),
+      gMaxSize: gm.maxSize,
+      showGuide: st.showGuide,
+      toggleGuide: () => this.setState({ showGuide: !st.showGuide }),
+      closeGuide: () => this.setState({ showGuide: false }),
+      gMenuOpen: st.gMenuOpen,
+      toggleGMenu: () => this.setState({ gMenuOpen: !st.gMenuOpen, cMenuOpen: false }),
+      gModelLabel: gm.label, gModelProvider: gm.providerName, gModelCostLabel: fmt(gm.cost) + "/img",
+      gModelGroups: modelGroups("g"),
+      billingWarn: keyState(gm.provider) === "invalid",
+      billingProvider: gm.providerName,
+      hasRef: st.gRef, noRef: !st.gRef,
+      addRef: () => { this.setState({ gRef: true }); this.say("reference loaded — running image-to-image"); },
+      removeRef: () => this.setState({ gRef: false }),
+      gStrength: st.gStrength, setGStrength: (e) => this.setState({ gStrength: +e.target.value }),
+      diceSeed: () => this.setState({ gSeed: String(Math.floor(Math.random() * 100000)) }),
+      saveGenRecipe: () => {
+        const name = ((st.gPrompt.split(",")[0] || "shot").trim().toLowerCase().replace(/[^a-z0-9]+/g, "-").slice(0, 18) || "shot") + ".v1";
+        const r = { id: Date.now(), name, prompt: st.gPrompt || "untitled", modelIds: [st.gModel], seeds: 1, models: gm.label, seedPolicy: "seed: fixed " + st.gSeed, params: st.steps + "st · g" + st.guidance, lastRun: "just now" };
+        this.setState({ recipes: [r, ...st.recipes] });
+        this.say("saved as recipe \u201C" + name + "\u201D");
+      },
+      genIdle: st.gen === "idle", genRunning: st.gen === "running", genDone: st.gen === "done",
+      genBg: st.genBg, genStarred: st.genStarred,
+      generateLabel: st.gen === "running" ? "Developing…" : "Develop ▸",
+      genCostLabel: fmt(gm.cost),
+      starLabel: st.genStarred ? "Marked ✓ (your pen)" : "Mark as keeper",
+      toggleGenStar: () => this.setState({ genStarred: !st.genStarred }),
+      saveGen: () => this.say("PNG exported with full metadata"),
+      sendToCompare: () => { this.setState({ view: "compare", cPrompt: st.gPrompt || st.cPrompt }); this.say("prompt loaded — pick models and run"); },
+      runGenerate: () => {
+        if (fresh) { this.say("add a key in Settings first"); return; }
+        if (keyState(gm.provider) === "invalid") { this.say("fix your " + gm.providerName + " key first — see Settings"); return; }
+        if (st.gen === "running") return;
+        if (!st.gPrompt.trim()) { this.say("write a prompt first"); return; }
+        this.setState({ gen: "running", genStarred: false });
+        this.later(() => {
+          const m = byId(this.state.gModel);
+          this.setState({ gen: "done", genBg: GRADS[Math.floor(Math.random() * GRADS.length)], sessionCost: this.state.sessionCost + m.cost });
+        }, 1700);
+      },
+
+      // compare
+      cPrompt: st.cPrompt, setCPrompt: (e) => this.setState({ cPrompt: e.target.value }),
+      seeds: st.seeds,
+      seedsUp: () => this.setState({ seeds: Math.min(6, st.seeds + 1) }),
+      seedsDown: () => this.setState({ seeds: Math.max(2, st.seeds - 1) }),
+      cMenuOpen: st.cMenuOpen,
+      toggleCMenu: () => this.setState({ cMenuOpen: !st.cMenuOpen, gMenuOpen: false }),
+      cModelGroups: modelGroups("c"),
+      cmCountLabel: sel.length + (sel.length === 1 ? " model" : " models"),
+      saveSheetRecipe: () => {
+        const name = ((st.cPrompt.split(",")[0] || "sheet").trim().toLowerCase().replace(/[^a-z0-9]+/g, "-").slice(0, 18) || "sheet") + ".v1";
+        const r = { id: Date.now(), name, prompt: st.cPrompt, modelIds: sel.map((m) => m.id), seeds: st.seeds,
+          models: sel.length > 2 ? sel.length + " models" : sel.map((m) => m.label).join(" + "),
+          seedPolicy: "seeds: sweep ×" + st.seeds, params: st.steps + "st · g" + st.guidance, lastRun: "just now" };
+        this.setState({ recipes: [r, ...st.recipes] });
+        this.say("sheet saved as recipe \u201C" + name + "\u201D");
+      },
+      estimateLabel: fmt(est),
+      runLabel: st.running ? "Developing…" : "Run the sheet",
+      runCompare: () => this.runCompare(),
+      compareRows,
+      sheetNo: "0" + st.sheetNo,
+      gridCostLabel: fmt(gridCost),
+      gridStatusLabel: doneCt + "/" + totalCt + " developed",
+      exportBoard: () => this.say("board exported — one composite PNG, marks included"),
+      showUpsell: st.showUpsell,
+      closeUpsell: () => this.setState({ showUpsell: false }),
+      activateFromUpsell: () => { this.setState({ showUpsell: false, licensed: true }); this.say("license active — grids unlocked"); },
+
+      // library
+      q: st.q, setQ: (e) => this.setState({ q: e.target.value }),
+      filterAll: () => this.setState({ filter: "all" }), filterMarked: () => this.setState({ filter: "marked" }),
+      filterFlux: () => this.setState({ filter: "fal" }), filterGemini: () => this.setState({ filter: "google" }),
+      ...fchip("All", st.filter === "all"), ...fchip("Marked", st.filter === "marked"), ...fchip("Flux", st.filter === "fal"), ...fchip("Gemini", st.filter === "google"),
+      libEmpty: items.length === 0,
+      libCountLabel: filtered.length + " frames",
+      libItems: filtered.map((it) => ({ ...it, open: () => this.setState({ detail: it.id }), ...markBools(it.marked) })),
+      hasDetail: !!detail,
+      detailBg: detail ? detail.bg : "", detailPrompt: detail ? detail.prompt : "",
+      detailModel: detail ? detail.model : "", detailSeed: detail ? detail.seed : "",
+      detailCost: detail ? detail.cost : "", detailDate: detail ? detail.date : "",
+      detailMarkLabel: detail && detail.marked ? "Unmark" : "Mark as keeper",
+      closeDetail: () => this.setState({ detail: null }),
+      stopProp: (e) => e.stopPropagation(),
+      markDetail: () => this.setState({ items: st.items.map((i) => i.id === st.detail ? { ...i, marked: !i.marked } : i) }),
+      exportDetail: () => this.say("PNG exported with full metadata"),
+      deleteDetail: () => { this.setState({ items: st.items.filter((i) => i.id !== st.detail), detail: null }); this.say("frame deleted"); },
+
+      // recipes
+      recipesEmpty: recipes.length === 0 && !st.editorOpen,
+      editorOpen: st.editorOpen,
+      newRecipe: () => this.setState({ editorOpen: true }),
+      closeEditor: () => this.setState({ editorOpen: false }),
+      recName: st.recName, setRecName: (e) => this.setState({ recName: e.target.value }),
+      recPrompt: st.recPrompt, setRecPrompt: (e) => this.setState({ recPrompt: e.target.value }),
+      editorSetupLabel: (sel.map((m) => m.label).join(" + ") || "no models picked") + " · ×" + st.seeds + " seeds · " + st.steps + "st g" + st.guidance,
+      saveRecipe: () => {
+        if (!st.recName.trim() || !st.recPrompt.trim()) { this.say("give it a name and a prompt template"); return; }
+        const r = { id: Date.now(), name: st.recName.trim(), prompt: st.recPrompt.trim(), modelIds: Object.keys(st.cm), seeds: st.seeds,
+          models: sel.length > 2 ? sel.length + " models" : (sel.map((m) => m.label).join(" + ") || "—"),
+          seedPolicy: st.defSeedPolicy === "fixed" ? "seed: fixed 41" : "seeds: sweep ×" + st.seeds, params: st.steps + "st · g" + st.guidance, lastRun: "never" };
+        this.setState({ recipes: [r, ...st.recipes], editorOpen: false, recName: "", recPrompt: "" });
+        this.say("recipe saved");
+      },
+      recipeList: recipes.map((r) => ({
+        ...r,
+        run: () => {
+          const cm = {};
+          (r.modelIds || ["flux11"]).forEach((id) => { cm[id] = true; });
+          this.setState({ view: "compare", cPrompt: r.prompt.replace("{subject}", "ceramic teapot"), cm, seeds: Math.min(6, Math.max(2, r.seeds || 4)), cMenuOpen: false, gMenuOpen: false });
+          this.say("recipe loaded — models & seeds set, press Run");
+        },
+        duplicate: () => { const copy = { ...r, id: Date.now(), name: r.name + "-copy" }; this.setState({ recipes: [...st.recipes, copy] }); this.say("recipe duplicated"); },
+        remove: () => { this.setState({ recipes: st.recipes.filter((x) => x.id !== r.id) }); this.say("recipe deleted"); },
+      })),
+
+      // settings
+      keyRows,
+      addProv: st.addProv, setAddProv: (e) => this.setState({ addProv: e.target.value }),
+      addKeyVal: st.addKeyVal, setAddKeyVal: (e) => this.setState({ addKeyVal: e.target.value }),
+      addKey: () => {
+        if ((st.addKeyVal || "").length < 8) { this.say("paste a whole key first"); return; }
+        const p = st.addProv;
+        this.setState({ keys: { ...st.keys, [p]: "testing" }, addKeyVal: "" });
+        this.later(() => {
+          this.setState({ keys: { ...this.state.keys, [p]: "valid" } });
+          const pv = PROVIDERS.find((x) => x.id === p);
+          this.say(pv.name + " key works — " + pv.models.length + " models unlocked");
+        }, 900);
+      },
+      registryCountLabel: ALL_MODELS.length + " models · " + PROVIDERS.length + " providers",
+      registryProviders: PROVIDERS.map((p) => ({
+        name: p.name,
+        note: keyState(p.id) ? p.models.length + " models" : "no key",
+        color: keyState(p.id) ? "#4C7C4C" : "var(--faint)",
+      })),
+      syncRegistry: () => this.say("registry synced — you're current, no new models today"),
+      storageLabel: items.length === 0 ? "0 MB · 0 frames" : Math.round(items.length * 4.6) + " MB in this browser · " + items.length + " frames",
+      defSize: st.defSize, setDefSize: (e) => { this.setState({ defSize: e.target.value }); this.say("default size: " + e.target.value); },
+      ...dchip("SeedRandom", st.defSeedPolicy === "random"), ...dchip("SeedFixed", st.defSeedPolicy === "fixed"),
+      ...dchip("Png", st.defFormat === "PNG"), ...dchip("Webp", st.defFormat === "WEBP"),
+      setSeedRandom: () => this.setState({ defSeedPolicy: "random" }),
+      setSeedFixed: () => this.setState({ defSeedPolicy: "fixed" }),
+      setPng: () => this.setState({ defFormat: "PNG" }),
+      setWebp: () => this.setState({ defFormat: "WEBP" }),
+      license: st.license, setLicense: (e) => this.setState({ license: e.target.value }),
+      activate: () => {
+        if ((st.apiKey || "").length < 8) { this.say("that doesn't look like an API key"); return; }
+        this.setState({ licensed: true }); this.say("license active — grids unlocked");
+      },
+      themeLight: () => this.setTheme("light"),
+      themeDark: () => this.setTheme("dark"),
+      toggleTheme: () => this.setTheme(st.theme === "dark" ? "light" : "dark"),
+      themeIcon: st.theme === "dark" ? "☀︎" : "☾",
+      thLightBg: st.theme !== "dark" ? "var(--ink)" : "var(--paper2)",
+      thLightColor: st.theme !== "dark" ? "var(--paper2)" : "var(--faint)",
+      thLightBorder: st.theme !== "dark" ? "var(--ink)" : "rgba(var(--hair),.2)",
+      thDarkBg: st.theme === "dark" ? "var(--ink)" : "var(--paper2)",
+      thDarkColor: st.theme === "dark" ? "var(--paper2)" : "var(--faint)",
+      thDarkBorder: st.theme === "dark" ? "var(--ink)" : "rgba(var(--hair),.2)",
+      exportAll: () => this.say("gridloom-backup-2026-07-03.zip — downloading"),
+      confirmingWipe: st.confirmWipe, notConfirmingWipe: !st.confirmWipe,
+      askWipe: () => { this.setState({ confirmWipe: true }); this.later(() => this.setState({ confirmWipe: false }), 4000); },
+      doWipe: () => { this.setState({ confirmWipe: false, wiped: true, items: [], recipes: [] }); this.say("everything wiped — this browser is clean"); },
+    };
+  }
+}
+</script>
+</body>
+</html>

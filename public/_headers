@@ -1,0 +1,17 @@
+# Cloudflare Pages headers. The CSP is the main defense-in-depth for a BYOK
+# app: even under XSS, keys cannot exfiltrate to hosts outside connect-src.
+#
+# connect-src covers exactly what the app talks to:
+#   fal client SDK    queue.fal.run / rest.alpha.fal.ai (storage) / fal.media + v3.fal.media (results)
+#   Google Gemini     generativelanguage.googleapis.com
+#   OpenAI            api.openai.com
+# script-src allows self + the one inline theme script in index.html (hashed —
+# recompute if that script changes). React-rendered ld+json blocks are inert
+# data, not blocked by script-src. style 'unsafe-inline' is required by React
+# style attributes. img data: serves the CSS grain/loupe data-URIs; blob: the
+# generated frames.
+
+/*
+  Content-Security-Policy: default-src 'self'; script-src 'self' 'sha256-+C03d6qKf+nH/qVfoabCDu8GaijXa5pDkf/5t88ef60='; style-src 'self' 'unsafe-inline'; img-src 'self' blob: data:; font-src 'self'; connect-src 'self' https://*.fal.run https://*.fal.ai https://fal.media https://*.fal.media https://generativelanguage.googleapis.com https://api.openai.com; worker-src 'self'; manifest-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'none'
+  X-Frame-Options: DENY
+  Permissions-Policy: camera=(), microphone=(), geolocation=()

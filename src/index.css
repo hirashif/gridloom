@@ -1,0 +1,286 @@
+@import "tailwindcss";
+@plugin "@tailwindcss/typography";
+
+@custom-variant dark (&:where([data-gl-theme="dark"], [data-gl-theme="dark"] *));
+
+/* ── The Photo Studio ──────────────────────────────────────────────
+   Light = the positive print (silver-gelatin paper on the light table).
+   Dark  = the film negative (warm black-brown, never slate).
+   Rule: the UI is warm monochrome; the ONLY saturated pixels are
+   marks — wax-red for keeper/primary marks. Prints are prints:
+   accents (--accent, --mark, --tape, --ok/--warn/--error) are constant
+   across light and dark — they never flip. */
+
+:root {
+  /* Light print — copied VERBATIM from design/Gridloom Studio.dc.html */
+  --paper: #F3EFE6;
+  --paper2: #F7F4ED;
+  --card: #FFFDF6;
+  --chip: #FFFFFF;
+  --chip-on: #FFF3EC;
+  --ink: #241F18;
+  --muted: #5C5344;
+  --faint: #8C8069;
+  --ph: #B5A98E;
+  --hair: 50, 42, 32; /* raw RGB triplet — used as rgba(var(--hair), .14) */
+  --chrome: rgba(247, 244, 237, 0.92);
+  --sheet-bg: radial-gradient(120% 160% at 50% -10%, #FFFEF8 0%, #F4EEDC 45%, #E7DEC4 100%);
+  --sheet-shadow: inset 0 2px 18px rgba(255, 255, 255, 0.9), inset 0 -10px 30px rgba(120, 100, 60, 0.12), 0 14px 34px -18px rgba(60, 48, 24, 0.35);
+  --sheet-ink: #241F18;
+  --sheet-muted: #8A7C5E;
+  --sheet-faint: #A89C82;
+  --sheet-line: rgba(50, 42, 32, 0.22);
+  --sheet-dash: rgba(50, 42, 32, 0.35);
+  --sheet-shimmer: linear-gradient(90deg, #F0EADA 25%, #E4DAC0 37%, #F0EADA 63%);
+  --sheet-btn-bg: #241F18;
+  --sheet-btn-ink: #F7F4ED;
+
+  /* Constant accents — defined once, never overridden in dark (prints are prints) */
+  --accent: #D23B2E;
+  --accent-hover: #B32A1F;
+  --mark: #E8483A;
+  --tape: #FBE38A;
+  --ok: #4C7C4C;
+  --warn: #B5763B;
+  --error: #9E2A1E;
+  --error-soft: #FDF0EE;
+}
+
+[data-gl-theme="dark"] {
+  /* Film negative — copied VERBATIM from design/Gridloom Studio.dc.html */
+  --paper: #16120D;
+  --paper2: #1B1610;
+  --card: #211B13;
+  --chip: #2A2318;
+  --chip-on: #3A2A1E;
+  --ink: #F0E6D2;
+  --muted: #A89A80;
+  --faint: #7A6F5C;
+  --ph: #6E6250;
+  --hair: 240, 230, 210;
+  --chrome: rgba(22, 18, 13, 0.92);
+  --sheet-bg: #26211A;
+  --sheet-shadow: 0 22px 46px -18px rgba(0, 0, 0, 0.55);
+  --sheet-ink: #F0EBDD;
+  --sheet-muted: #C9BFA8;
+  --sheet-faint: #6B6250;
+  --sheet-line: rgba(255, 255, 255, 0.22);
+  --sheet-dash: rgba(255, 255, 255, 0.3);
+  --sheet-shimmer: linear-gradient(90deg, #332C22 25%, #413828 37%, #332C22 63%);
+  --sheet-btn-bg: #F0EBDD;
+  --sheet-btn-ink: #26211A;
+}
+
+@theme {
+  --font-sans: "Instrument Sans", ui-sans-serif, system-ui, sans-serif;
+  --font-display: "Newsreader", Georgia, serif;
+  --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+  --font-hand: "Caveat", cursive;
+
+  /* Two-tier motion rule: movement uses --ease-print, flat color/opacity
+     uses plain ease; interactions never exceed 300ms. */
+  --ease-print: cubic-bezier(0.2, 0.7, 0.3, 1);
+
+  --animate-fade-in: fade-in 0.18s ease both;
+  --animate-fade-up: fade-up 0.28s var(--ease-print) both;
+  --animate-scale-in: scale-in 0.18s var(--ease-print) both;
+  --animate-shimmer: shimmer 1.8s linear infinite;
+  --animate-draw: draw 0.3s var(--ease-print) both;
+  --animate-develop: develop 0.3s var(--ease-print) both;
+
+  /* Adopted from the design helmet (glRise / glPop / glTick / glFloat / glFloatB) */
+  --animate-rise: rise 0.3s var(--ease-print) both;
+  --animate-pop: pop 0.35s var(--ease-print) both;
+  --animate-tick: tick 2.4s ease-in-out infinite;
+  --animate-float: float 5.5s ease-in-out infinite alternate;
+  --animate-float-b: float-b 6s ease-in-out infinite alternate;
+
+  @keyframes fade-in {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+  @keyframes fade-up {
+    from { opacity: 0; transform: translateY(6px); }
+    to { opacity: 1; transform: none; }
+  }
+  @keyframes scale-in {
+    from { opacity: 0; transform: scale(0.97); }
+    to { opacity: 1; transform: scale(1); }
+  }
+  @keyframes shimmer {
+    from { background-position: 200% 0; }
+    to { background-position: -200% 0; }
+  }
+  @keyframes draw {
+    from { stroke-dashoffset: var(--draw-length, 600); }
+    to { stroke-dashoffset: 0; }
+  }
+  @keyframes develop {
+    from { opacity: 0; filter: blur(4px); }
+    to { opacity: 1; filter: blur(0); }
+  }
+  /* glRise — translateY(14px) → 0 + fade */
+  @keyframes rise {
+    from { opacity: 0; transform: translateY(14px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  /* glPop — scale .85 → 1.03 → 1 + fade */
+  @keyframes pop {
+    0% { opacity: 0; transform: scale(0.85); }
+    70% { transform: scale(1.03); }
+    100% { opacity: 1; transform: scale(1); }
+  }
+  /* glTick — tiny idle lift */
+  @keyframes tick {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-1px); }
+  }
+  /* glFloat — landing hero drift (from design/Gridloom Landing.dc.html) */
+  @keyframes float {
+    0%, 100% { transform: translateY(0) rotate(1.2deg); }
+    50% { transform: translateY(-7px) rotate(1.2deg); }
+  }
+  /* glFloatB — second landing element drift */
+  @keyframes float-b {
+    0%, 100% { transform: translateY(0) rotate(-2deg); }
+    50% { transform: translateY(-5px) rotate(-2deg); }
+  }
+}
+
+/* Self-hosted Newsreader (variable) — served from /fonts so index.html can preload it.
+   Display emphasis face; italic is used in the hero immediately, so both axes ship. */
+@font-face {
+  font-family: 'Newsreader';
+  font-style: normal;
+  font-display: swap;
+  font-weight: 200 800;
+  src: url('/fonts/newsreader-latin-wght-normal.woff2') format('woff2-variations');
+}
+@font-face {
+  font-family: 'Newsreader';
+  font-style: italic;
+  font-display: swap;
+  font-weight: 200 800;
+  src: url('/fonts/newsreader-latin-wght-italic.woff2') format('woff2-variations');
+}
+
+/* Press affordance: movement on the print curve, color on plain ease */
+.press {
+  transition:
+    transform 0.12s var(--ease-print),
+    color 0.18s ease,
+    background-color 0.18s ease,
+    border-color 0.18s ease,
+    opacity 0.18s ease;
+}
+.press:active {
+  transform: scale(0.97);
+}
+
+/* Link underline that draws in from the left */
+.link-underline {
+  position: relative;
+}
+.link-underline::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -1px;
+  height: 1px;
+  background: currentColor;
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.24s var(--ease-print);
+}
+.link-underline:hover::after,
+.link-underline:focus-visible::after {
+  transform: scaleX(1);
+}
+
+/* Scroll reveal: final state is the default, so content is never hidden
+   when animation-timeline is unsupported or motion is reduced. */
+@keyframes reveal-view {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: none; }
+}
+@media (prefers-reduced-motion: no-preference) {
+  @supports (animation-timeline: view()) {
+    .reveal {
+      animation: reveal-view linear both;
+      animation-timeline: view();
+      animation-range: entry 5% cover 35%;
+    }
+  }
+}
+
+/* Silver-gelatin grain: one static SVG noise pass over the chrome.
+   Barely-there by design; never applied over generated images. */
+.grain {
+  position: fixed;
+  inset: 0;
+  z-index: 90;
+  pointer-events: none;
+  opacity: 0.05;
+  mix-blend-mode: multiply;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='240'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+[data-gl-theme="dark"] .grain {
+  mix-blend-mode: screen;
+  opacity: 0.035;
+}
+
+/* Loupe cursor for inspecting frames on the light table */
+.cursor-loupe {
+  cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='22' height='22' viewBox='0 0 22 22'%3E%3Ccircle cx='9' cy='9' r='6.5' fill='none' stroke='%23181613' stroke-width='2'/%3E%3Cline x1='14' y1='14' x2='20' y2='20' stroke='%23181613' stroke-width='2.5' stroke-linecap='round'/%3E%3C/svg%3E") 9 9, zoom-in;
+}
+
+/* Sheet surface: the light-table gradient + inset shadow (gradients/shadows
+   can't live as @theme color tokens). */
+.sheet-surface {
+  background: var(--sheet-bg);
+  box-shadow: var(--sheet-shadow);
+}
+
+/* Loading shimmer for empty grid cells. Reuses the `shimmer` keyframe, which
+   animates background-position across a 200%-wide gradient. */
+.shimmer-cell {
+  background: var(--sheet-shimmer);
+  background-size: 200% 100%;
+  animation: shimmer 1.4s linear infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+@theme inline {
+  /* New vocabulary — pages built in later steps use these */
+  --color-paper: var(--paper);
+  --color-paper2: var(--paper2);
+  --color-card: var(--card);
+  --color-chip: var(--chip);
+  --color-chip-on: var(--chip-on);
+  --color-ink: var(--ink);
+  --color-muted: var(--muted);
+  --color-faint: var(--faint);
+  --color-ph: var(--ph);
+  --color-accent: var(--accent);
+  --color-accent-hover: var(--accent-hover);
+  --color-mark: var(--mark);
+  --color-tape: var(--tape);
+  --color-ok: var(--ok);
+  --color-warn: var(--warn);
+  --color-danger: var(--error);
+  --color-danger-soft: var(--error-soft);
+  --color-sheet-ink: var(--sheet-ink);
+  --color-sheet-muted: var(--sheet-muted);
+  --color-sheet-faint: var(--sheet-faint);
+  --color-sheet-line: var(--sheet-line);
+  --color-sheet-dash: var(--sheet-dash);
+  --color-sheet-btn: var(--sheet-btn-bg);
+  --color-sheet-btn-ink: var(--sheet-btn-ink);
+}

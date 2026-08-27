@@ -1,0 +1,55 @@
+<svg width="1500" height="500" viewBox="0 0 1500 500" xmlns="http://www.w3.org/2000/svg">
+  <!-- studio paper background (marketing warmth) -->
+  <rect width="1500" height="500" fill="#F7F4ED"/>
+
+  <!-- wordmark: mark + Georgia serif "Gridloom" in ink -->
+  <g transform="translate(110,180)">
+    <g transform="translate(0,8)">
+      <rect x="0"  y="0"  width="30" height="30" rx="7" fill="none" stroke="#241F18" stroke-width="3.6"/>
+      <rect x="38" y="0"  width="30" height="30" rx="7" fill="none" stroke="#241F18" stroke-width="3.6"/>
+      <rect x="0"  y="38" width="30" height="30" rx="7" fill="none" stroke="#241F18" stroke-width="3.6"/>
+      <rect x="38" y="38" width="30" height="30" rx="7" fill="#241F18"/>
+      <!-- keeper loop on the mark -->
+      <path d="M52 40 C 72 46, 72 66, 53 70 C 34 74, 26 62, 30 48 C 33 39, 45 34, 58 36"
+            fill="none" stroke="#E8483A" stroke-width="3.4" stroke-linecap="round"/>
+    </g>
+    <text x="94" y="60" font-family="Georgia, 'Times New Roman', serif" font-size="72" font-weight="500" fill="#241F18">Gridloom</text>
+  </g>
+  <text x="112" y="322" font-family="Menlo, monospace" font-size="21" letter-spacing="1" fill="#5C5344">shoot the whole roll. circle the keeper.</text>
+  <text x="112" y="362" font-family="Menlo, monospace" font-size="19" fill="#D23B2E">gridloom.app</text>
+
+  <!-- contact sheet motif, right side -->
+  <g transform="translate(910,72)">
+    <text x="0" y="-16" font-family="Menlo, monospace" font-size="14" letter-spacing="2" fill="#8C8069">GRIDLOOM · CONTACT 001</text>
+    <g font-family="Menlo, monospace" font-size="13" fill="#8C8069" letter-spacing="1">
+      <text x="70" y="14">SEED 345527</text>
+      <text x="216" y="14">SEED 455924</text>
+      <text x="362" y="14">SEED 887431</text>
+    </g>
+    <!-- row labels -->
+    <g font-family="Menlo, monospace" font-size="13" fill="#5C5344" text-anchor="end">
+      <text x="52" y="86">flux</text>
+      <text x="52" y="232">sdxl</text>
+    </g>
+    <!-- frames: warm print-white film frames, ink keyline -->
+    <g stroke="#241F18" stroke-width="1.5">
+      <rect x="66"  y="28"  width="130" height="130" fill="#FFFDF6"/>
+      <rect x="212" y="28"  width="130" height="130" fill="#F4EEDC"/>
+      <rect x="358" y="28"  width="130" height="130" fill="#FFFDF6"/>
+      <rect x="66"  y="174" width="130" height="130" fill="#EFE7D2"/>
+      <rect x="212" y="174" width="130" height="130" fill="#F4EEDC"/>
+      <rect x="358" y="174" width="130" height="130" fill="#FFFDF6"/>
+    </g>
+    <!-- frame numbers (01A omitted under the keeper frame; KEEPER label takes its place) -->
+    <g font-family="Menlo, monospace" font-size="12" fill="#8C8069">
+      <text x="66" y="170">01</text><text x="358" y="170">01B</text>
+      <text x="66" y="322">02</text><text x="212" y="322">02A</text><text x="358" y="322">02B</text>
+    </g>
+    <!-- the keeper: grease-pencil circle on frame 01A + label under it -->
+    <g stroke="#E8483A" fill="none" stroke-linecap="round" opacity="0.92">
+      <path d="M 320 40 C 348 58, 346 128, 300 150 C 254 172, 210 158, 202 108 C 195 62, 232 32, 276 34 C 308 35, 330 48, 336 66"
+            stroke-width="5"/>
+    </g>
+    <text x="212" y="170" font-family="Menlo, monospace" font-size="12" font-weight="700" letter-spacing="2" fill="#D23B2E">KEEPER</text>
+  </g>
+</svg>

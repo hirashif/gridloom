@@ -1,0 +1,13 @@
+# Cloudflare Pages: a root 404.html disables the automatic SPA fallback,
+# so each real app route is rewritten to the SPA shell explicitly.
+# Target is "/" (not /index.html): Pages 308-canonicalizes /index.html,
+# which would redirect and lose the route.
+# Unknown paths keep hitting 404.html with a true HTTP 404.
+# Keep this list in sync with the routes in src/App.tsx.
+/generate / 200
+/grid / 200
+/library / 200
+/recipes / 200
+/settings / 200
+/terms / 200
+/privacy / 200
